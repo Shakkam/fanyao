@@ -1,0 +1,149 @@
+<title>Maquettes Fan Yao</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800&display=swap">
+<style>
+  /* Layout: barre de choix fine en haut, la maquette occupe tout le reste */
+  :root {
+    --ink: #0b0b0d;
+    --bar: #121216;
+    --line: #26262c;
+    --muted: #8a8a94;
+    --fg: #f4f4f6;
+    --v1: #e63946;
+    --v2: #1e90ff;
+    --v3: #c4694a;
+    --v4: #f4f4f6;
+    --font-ui: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
+    color-scheme: dark;
+  }
+  html, body { height: 100%; }
+  body {
+    background: var(--ink);
+    color: var(--fg);
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-ui);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding-block: 8px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    background: var(--bar);
+    border-bottom: 1px solid var(--line);
+  }
+  .brand {
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .brand small {
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    margin-left: 8px;
+  }
+  .switch {
+    display: flex;
+    gap: 4px;
+    margin-left: auto;
+    flex-wrap: wrap;
+  }
+  .switch button {
+    --c: var(--muted);
+    font: 600 14px/1 var(--font-ui);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid var(--line);
+    padding: 9px 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color .2s, border-color .2s, background .2s;
+  }
+  .switch button::before {
+    content: "";
+    width: 8px; height: 8px;
+    background: var(--c);
+    transform: rotate(45deg);
+  }
+  .switch button[data-v="v1"] { --c: var(--v1); }
+  .switch button[data-v="v2"] { --c: var(--v2); }
+  .switch button[data-v="v3"] { --c: var(--v3); }
+  .switch button[data-v="v4"] { --c: var(--v4); }
+  .switch button[data-v="v4"]::before { background: linear-gradient(135deg, #1e90ff, #e63946); }
+  .switch button:hover { color: var(--fg); }
+  .switch button[aria-pressed="true"] {
+    color: var(--fg);
+    border-color: var(--c);
+    background: color-mix(in srgb, var(--c) 18%, transparent);
+  }
+  .switch button:focus-visible { outline: 2px solid var(--c); outline-offset: 2px; }
+  .open {
+    color: var(--muted);
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .open:hover { color: var(--fg); }
+  iframe {
+    flex: 1;
+    width: 100%;
+    border: 0;
+    background: var(--ink);
+  }
+  @media (max-width: 560px) {
+    .brand small, .open { display: none; }
+    .switch { margin-left: 0; width: 100%; }
+    .switch button { flex: 1; justify-content: center; padding: 9px 6px; font-size: 13px; }
+  }
+</style>
+
+<header class="bar">
+  <div class="brand">Fan Yao <small>Maquettes</small></div>
+  <div class="switch" role="group" aria-label="Choisir une version">
+    <button type="button" data-v="v1" aria-pressed="false">V1 · Une page</button>
+    <button type="button" data-v="v2" aria-pressed="false">V2 · Multi-pages</button>
+    <button type="button" data-v="v3" aria-pressed="false">V3 · Crème</button>
+    <button type="button" data-v="v4" aria-pressed="false">V4 · Ouf</button>
+  </div>
+  <a class="open" id="open" href="fanyao-v4-ouf/index.html" target="_blank" rel="noopener">Plein écran ↗</a>
+</header>
+<iframe id="frame" title="Maquette Fan Yao" src="fanyao-v4-ouf/index.html" allow="fullscreen"></iframe>
+
+<script>
+  var SRC = {
+    v1: "fanyao-v1-une-page/index.html",
+    v2: "fanyao-v2-multipages/index.html",
+    v3: "fanyao-v3-madeleine-leon/index.html",
+    v4: "fanyao-v4-ouf/index.html"
+  };
+  var frame = document.getElementById("frame");
+  var open = document.getElementById("open");
+  var buttons = document.querySelectorAll(".switch button");
+
+  function show(v) {
+    if (!SRC[v]) v = "v4";
+    buttons.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.v === v)); });
+    if (frame.getAttribute("src") !== SRC[v]) frame.setAttribute("src", SRC[v]);
+    open.href = SRC[v];
+    try { localStorage.setItem("fy-version", v); } catch (e) {}
+    if (location.hash.slice(1) !== v) history.replaceState(null, "", "#" + v);
+  }
+
+  buttons.forEach(function (b) { b.addEventListener("click", function () { show(b.dataset.v); }); });
+
+  var start = location.hash.slice(1);
+  if (!SRC[start]) { try { start = localStorage.getItem("fy-version"); } catch (e) {} }
+  show(start);
+</script>

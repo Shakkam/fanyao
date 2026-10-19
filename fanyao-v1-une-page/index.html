@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Fan Yao — Kung-fu Wushu à Bordeaux. Cours pour enfants et adultes, compétition, stages et événements. Professeurs membres de l'équipe de France." />
+  <title>FAN YAO — Kung-fu Wushu Bordeaux</title>
+
+  <!-- Google Fonts: Barlow Condensed (display) + Inter (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Reset & Base ───────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --c-black:   #000000;
+      --c-white:   #ffffff;
+      --c-red:     #e63946;
+      --c-red-dim: #9b1c23;
+      --c-zinc9:   #18181b;
+      --c-zinc8:   #27272a;
+      --c-zinc7:   #3f3f46;
+      --c-zinc6:   #52525b;
+      --c-zinc5:   #71717a;
+      --c-zinc4:   #a1a1aa;
+      --c-zinc3:   #d4d4d8;
+      --font-display: 'Barlow Condensed', sans-serif;
+      --font-body:    'Inter', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--c-black);
+      color: var(--c-white);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      scrollbar-color: var(--c-zinc7) var(--c-black);
+      scrollbar-width: thin;
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--c-black); }
+    ::-webkit-scrollbar-thumb { background: var(--c-zinc7); border-radius: 99px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--c-zinc6); }
+
+    ::selection { background: var(--c-white); color: var(--c-black); }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    button { cursor: pointer; border: none; background: none; font: inherit; color: inherit; }
+
+    /* ─── Utility ────────────────────────────────────────────────── */
+    .label {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--c-zinc5);
+    }
+
+    .label--red { color: var(--c-red); }
+
+    .container {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+    }
+
+    /* ─── Scroll reveal ──────────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity 0.7s cubic-bezier(0.25,0.1,0.25,1),
+                  transform 0.7s cubic-bezier(0.25,0.1,0.25,1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.2s; }
+    .reveal-d3 { transition-delay: 0.3s; }
+    .reveal-d4 { transition-delay: 0.4s; }
+    .reveal-d5 { transition-delay: 0.5s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .ken-burns { animation: none; }
+      .hero-title-word { animation: none; opacity: 1; transform: none; }
+    }
+
+    /* ─── Nav ────────────────────────────────────────────────────── */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      transition: background 0.4s ease, border-color 0.4s ease;
+      border-bottom: 1px solid transparent;
+    }
+    .nav.scrolled {
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom-color: var(--c-zinc8);
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: 0.2em;
+      color: var(--c-white);
+      text-transform: uppercase;
+    }
+    .nav-logo span { color: var(--c-red); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--c-zinc4);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--c-white); }
+
+    .nav-cta {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--c-red);
+      color: var(--c-white);
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-cta:hover { background: var(--c-red); }
+
+    /* Burger */
+    .nav-burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      width: 24px;
+      padding: 4px 0;
+    }
+    .nav-burger span {
+      display: block;
+      width: 100%;
+      height: 1px;
+      background: var(--c-white);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .nav-burger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-burger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    /* Mobile menu */
+    .nav-mobile {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--c-black);
+      z-index: 99;
+      flex-direction: column;
+      justify-content: center;
+      padding: 5rem 2.5rem;
+    }
+    .nav-mobile.open { display: flex; }
+    .nav-mobile ul { list-style: none; display: flex; flex-direction: column; gap: 2rem; }
+    .nav-mobile a {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 8vw, 3rem);
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--c-zinc5);
+      transition: color 0.2s;
+    }
+    .nav-mobile a:hover { color: var(--c-white); }
+
+    @media (max-width: 768px) {
+      .nav-links, .nav-cta { display: none; }
+      .nav-burger { display: flex; }
+    }
+
+    /* ─── Hero ───────────────────────────────────────────────────── */
+    #accueil {
+      position: relative;
+      width: 100%;
+      height: 100dvh;
+      min-height: 600px;
+      overflow: hidden;
+      background: var(--c-black);
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('images/aaea9c_874c90404b204331ac11d99d7772bfee.jpg');
+      background-size: cover;
+      background-position: center 30%;
+      transform-origin: center;
+    }
+
+    @keyframes ken-burns {
+      0%   { transform: scale(1)    translate(0, 0); }
+      33%  { transform: scale(1.07) translate(-1%, -1%); }
+      66%  { transform: scale(1.05) translate(1%, -0.5%); }
+      100% { transform: scale(1.09) translate(-0.5%, 0.5%); }
+    }
+    .ken-burns { animation: ken-burns 16s ease-in-out infinite alternate; }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.96) 0%,
+        rgba(0,0,0,0.55) 40%,
+        rgba(0,0,0,0.2) 70%,
+        transparent 100%
+      );
+    }
+    .hero-overlay-left {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(0,0,0,0.5) 0%, transparent 60%);
+    }
+
+    .hero-content {
+      position: absolute;
+      bottom: clamp(3rem, 8vh, 5rem);
+      left: clamp(1.5rem, 5vw, 4rem);
+      right: clamp(1.5rem, 5vw, 4rem);
+    }
+
+    .hero-eyebrow {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--c-red);
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fade-up 0.6s 0.2s ease forwards;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(4.5rem, 14vw, 10rem);
+      font-weight: 900;
+      line-height: 0.92;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--c-white);
+      overflow: hidden;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0 0.25em;
+    }
+
+    .hero-title-word {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    .hero-title-word:nth-child(1) { animation: word-in 0.7s 0.4s cubic-bezier(0.25,0.1,0.25,1) forwards; }
+    .hero-title-word:nth-child(2) { animation: word-in 0.7s 0.55s cubic-bezier(0.25,0.1,0.25,1) forwards; }
+    .hero-title-word:nth-child(3) { animation: word-in 0.7s 0.7s cubic-bezier(0.25,0.1,0.25,1) forwards; }
+
+    @keyframes word-in {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fade-up {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-subtitle {
+      margin-top: 1.25rem;
+      font-family: var(--font-body);
+      font-size: clamp(0.75rem, 1.5vw, 0.875rem);
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--c-zinc4);
+      opacity: 0;
+      animation: fade-up 0.6s 1s ease forwards;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 2rem;
+      opacity: 0;
+      animation: fade-up 0.6s 1.15s ease forwards;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 2rem;
+      background: var(--c-red);
+      color: var(--c-white);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: #c62833; transform: translateY(-1px); }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 2rem;
+      border: 1px solid var(--c-zinc6);
+      color: var(--c-zinc3);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--c-white); color: var(--c-white); }
+
+    /* ─── Section Shared ─────────────────────────────────────────── */
+    section { padding: clamp(5rem, 10vh, 8rem) 0; }
+
+    .section-header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: clamp(3rem, 6vh, 4rem);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .section-rule {
+      width: 2.5rem;
+      height: 2px;
+      background: var(--c-red);
+      margin-top: 0.25rem;
+    }
+
+    /* ─── About ──────────────────────────────────────────────────── */
+    #a-propos { background: var(--c-black); border-top: 1px solid var(--c-zinc8); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .about-body p {
+      color: var(--c-zinc3);
+      font-size: 1rem;
+      line-height: 1.75;
+      margin-bottom: 1rem;
+    }
+
+    .about-pull {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+      font-weight: 700;
+      font-style: italic;
+      line-height: 1.2;
+      color: var(--c-white);
+      border-left: 3px solid var(--c-red);
+      padding-left: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .about-pillars {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 2rem;
+    }
+    .about-pillar {
+      display: inline-block;
+      padding: 0.375rem 0.875rem;
+      border: 1px solid var(--c-zinc7);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--c-zinc4);
+    }
+
+    .about-image-wrap {
+      position: relative;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+    }
+    .about-image-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: grayscale(20%);
+      transition: filter 0.5s;
+    }
+    .about-image-wrap:hover img { filter: grayscale(0%); }
+
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    }
+
+    /* ─── Competition strip ──────────────────────────────────────── */
+    .compe-strip {
+      background: var(--c-zinc9);
+      border-top: 1px solid var(--c-zinc8);
+      border-bottom: 1px solid var(--c-zinc8);
+      padding: 3rem 0;
+    }
+    .compe-inner {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3rem;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .compe-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .compe-stat-num {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 6vw, 4.5rem);
+      font-weight: 900;
+      color: var(--c-white);
+      line-height: 1;
+    }
+    .compe-stat-num span { color: var(--c-red); }
+    .compe-stat-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--c-zinc5);
+    }
+    .compe-text {
+      max-width: 480px;
+      color: var(--c-zinc4);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    /* ─── Professors ─────────────────────────────────────────────── */
+    #professeurs { background: var(--c-black); }
+
+    .professors-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .professor-card {
+      position: relative;
+      overflow: hidden;
+      background: var(--c-zinc9);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .professor-photo {
+      position: relative;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .professor-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      filter: grayscale(30%);
+      transition: filter 0.5s, transform 0.6s cubic-bezier(0.25,0.1,0.25,1);
+    }
+    .professor-card:hover .professor-photo img {
+      filter: grayscale(0%);
+      transform: scale(1.04);
+    }
+    .professor-photo-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);
+    }
+
+    .professor-info {
+      padding: 2rem;
+    }
+
+    .professor-name {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .professor-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--c-red);
+      margin-bottom: 1.25rem;
+    }
+
+    .professor-bio {
+      color: var(--c-zinc4);
+      font-size: 0.875rem;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+
+    .professor-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .professor-tag {
+      padding: 0.25rem 0.75rem;
+      background: var(--c-zinc8);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--c-zinc3);
+    }
+
+    @media (max-width: 640px) {
+      .professors-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ─── Gallery ────────────────────────────────────────────────── */
+    #medias { background: var(--c-zinc9); }
+
+    .gallery-grid {
+      columns: 3;
+      column-gap: 4px;
+    }
+    .gallery-item {
+      break-inside: avoid;
+      margin-bottom: 4px;
+      overflow: hidden;
+      display: block;
+    }
+    .gallery-item img {
+      width: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s cubic-bezier(0.25,0.1,0.25,1), filter 0.5s;
+      filter: grayscale(20%);
+    }
+    .gallery-item:hover img {
+      transform: scale(1.04);
+      filter: grayscale(0%);
+    }
+
+    @media (max-width: 768px) {
+      .gallery-grid { columns: 2; }
+    }
+    @media (max-width: 480px) {
+      .gallery-grid { columns: 1; }
+    }
+
+    .gallery-social {
+      margin-top: 3rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .gallery-social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--c-zinc4);
+      transition: color 0.2s;
+    }
+    .gallery-social-link:hover { color: var(--c-white); }
+    .gallery-social-link svg { flex-shrink: 0; }
+
+
+    /* ─── Planning ───────────────────────────────────────────────── */
+    .planning { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:2px; margin-bottom:2px; }
+    .planning-card { background:var(--c-zinc9); padding:2.5rem; overflow-x:auto; }
+    .planning-title { font-family:var(--font-display); font-size:1.5rem; font-weight:800; text-transform:uppercase; letter-spacing:.05em; margin:.25rem 0 .25rem; }
+    .planning-addr { font-size:.8rem; color:var(--c-zinc5); margin-bottom:1.5rem; }
+    .planning table { width:100%; border-collapse:collapse; min-width:420px; }
+    .planning th { font-size:10px; font-weight:600; letter-spacing:.3em; text-transform:uppercase; color:var(--c-red); text-align:left; padding:.6rem .5rem; border-bottom:1px solid var(--c-red); }
+    .planning td { padding:.8rem .5rem; font-size:.85rem; border-bottom:1px solid var(--c-zinc8); color:#fff; white-space:nowrap; }
+    .planning td:first-child { color:var(--c-zinc5); white-space:normal; }
+    .planning td.empty { color:var(--c-zinc8); }
+
+    /* ─── Tarifs ─────────────────────────────────────────────────── */
+    #horaires-tarifs { background: var(--c-black); border-top: 1px solid var(--c-zinc8); }
+
+    .tarifs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2px;
+    }
+
+    .tarif-card {
+      background: var(--c-zinc9);
+      padding: 2.5rem;
+    }
+
+    .tarif-location-tag {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--c-red);
+      margin-bottom: 0.75rem;
+    }
+    .tarif-location-name {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+    }
+    .tarif-address {
+      font-size: 0.8rem;
+      color: var(--c-zinc5);
+      margin-bottom: 2rem;
+      line-height: 1.5;
+    }
+
+    .tarif-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 0.875rem 0;
+      border-bottom: 1px solid var(--c-zinc8);
+    }
+    .tarif-row:last-child { border-bottom: none; }
+    .tarif-row-label {
+      font-size: 0.875rem;
+      color: var(--c-zinc3);
+    }
+    .tarif-row-price {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--c-white);
+      letter-spacing: 0.03em;
+    }
+    .tarif-row-period {
+      font-size: 0.7rem;
+      font-weight: 400;
+      color: var(--c-zinc5);
+      margin-left: 0.25rem;
+    }
+
+    .tarif-discounts {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 2rem;
+      background: var(--c-zinc8);
+      align-items: center;
+      justify-content: space-between;
+    }
+    .tarif-discount-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--c-zinc5);
+    }
+    .tarif-discount-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .tarif-discount-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.875rem;
+      color: var(--c-zinc3);
+    }
+    .tarif-discount-badge {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--c-red);
+    }
+
+    .tarif-note {
+      margin-top: 2rem;
+      padding: 1.25rem 1.5rem;
+      border-left: 2px solid var(--c-red);
+      background: rgba(230,57,70,0.06);
+      font-size: 0.875rem;
+      color: var(--c-zinc4);
+      line-height: 1.6;
+    }
+
+    /* ─── À la carte ─────────────────────────────────────────────── */
+    #a-la-carte { background: var(--c-zinc9); border-top: 1px solid var(--c-zinc8); }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .service-card {
+      background: var(--c-black);
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: background 0.3s;
+    }
+    .service-card:hover { background: rgba(230,57,70,0.06); }
+
+    .service-num {
+      font-family: var(--font-display);
+      font-size: 5rem;
+      font-weight: 900;
+      color: var(--c-zinc8);
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+
+    .service-name {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      line-height: 1.1;
+    }
+
+    .service-desc {
+      color: var(--c-zinc4);
+      font-size: 0.875rem;
+      line-height: 1.7;
+      flex: 1;
+    }
+
+    .service-price-list { margin-top: auto; }
+    .service-price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.625rem 0;
+      border-top: 1px solid var(--c-zinc8);
+    }
+    .service-price-label { font-size: 0.8rem; color: var(--c-zinc5); }
+    .service-price-val {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--c-white);
+    }
+
+    .service-avail {
+      margin-top: 0.5rem;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--c-zinc6);
+    }
+
+    @media (max-width: 860px) {
+      .services-grid { grid-template-columns: 1fr; }
+    }
+    @media (min-width: 861px) and (max-width: 1100px) {
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .service-card:last-child { grid-column: 1 / -1; max-width: 50%; }
+    }
+
+    /* ─── Contact form in services ───────────────────────────────── */
+    .service-form-wrap {
+      margin-top: 4rem;
+      max-width: 600px;
+    }
+    .service-form-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 1.5rem;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .form-field { display: flex; flex-direction: column; gap: 0.375rem; }
+    .form-label { font-size: 10px; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: var(--c-zinc5); }
+    .form-input {
+      background: var(--c-zinc8);
+      border: 1px solid var(--c-zinc7);
+      color: var(--c-white);
+      padding: 0.75rem 1rem;
+      font: inherit;
+      font-size: 0.9rem;
+      width: 100%;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus { outline: none; border-color: var(--c-red); }
+    .form-input::placeholder { color: var(--c-zinc6); }
+    @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+
+    /* ─── Inscriptions ───────────────────────────────────────────── */
+    #inscriptions { background: var(--c-black); border-top: 1px solid var(--c-zinc8); }
+
+    .inscriptions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2px;
+    }
+
+    .inscription-card {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 2.5rem;
+      background: var(--c-zinc9);
+      transition: background 0.3s;
+    }
+    .inscription-card:hover { background: var(--c-zinc8); }
+
+    .inscription-icon {
+      width: 3rem;
+      height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(230,57,70,0.12);
+      border: 1px solid rgba(230,57,70,0.3);
+    }
+    .inscription-icon svg { color: var(--c-red); }
+
+    .inscription-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .inscription-desc {
+      font-size: 0.875rem;
+      color: var(--c-zinc4);
+      line-height: 1.6;
+      flex: 1;
+    }
+    .inscription-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--c-red);
+      transition: gap 0.2s;
+      margin-top: auto;
+    }
+    .inscription-link:hover { gap: 0.75rem; }
+
+    /* ─── Contact ────────────────────────────────────────────────── */
+    #contact {
+      background: var(--c-black);
+      border-top: 1px solid var(--c-zinc8);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .contact-headline {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 6vw, 5rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 0.95;
+      letter-spacing: 0.04em;
+      margin-bottom: 2.5rem;
+    }
+    .contact-headline em {
+      color: var(--c-red);
+      font-style: normal;
+    }
+
+    .contact-info-block {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .contact-info-item {}
+    .contact-info-tag {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--c-zinc6);
+      margin-bottom: 0.5rem;
+    }
+    .contact-info-value {
+      color: var(--c-zinc3);
+      font-size: 0.9rem;
+      line-height: 1.65;
+    }
+    .contact-info-value a {
+      color: var(--c-white);
+      transition: color 0.2s;
+    }
+    .contact-info-value a:hover { color: var(--c-red); }
+
+    .contact-social {
+      display: flex;
+      gap: 1rem;
+      margin-top: 3rem;
+    }
+    .contact-social-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.625rem;
+      padding: 0.75rem 1.25rem;
+      border: 1px solid var(--c-zinc7);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--c-zinc3);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .contact-social-btn:hover { border-color: var(--c-white); color: var(--c-white); }
+
+    .contact-map-note {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .contact-location-card {
+      padding: 2rem;
+      background: var(--c-zinc9);
+      border-left: 2px solid var(--c-red);
+    }
+    .contact-location-name {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+    .contact-location-addr {
+      font-size: 0.875rem;
+      color: var(--c-zinc4);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    }
+
+    /* ─── Footer ─────────────────────────────────────────────────── */
+    footer {
+      background: var(--c-black);
+      border-top: 1px solid var(--c-zinc8);
+      padding: 2rem clamp(1.5rem, 5vw, 4rem);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .footer-copy {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--c-zinc6);
+    }
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+    .footer-links a {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--c-zinc6);
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--c-white); }
+
+    /* ─── Back to top ────────────────────────────────────────────── */
+    .back-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 50;
+      width: 2.75rem;
+      height: 2.75rem;
+      background: var(--c-zinc8);
+      border: 1px solid var(--c-zinc7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.3s, transform 0.3s, background 0.2s;
+      color: var(--c-zinc4);
+    }
+    .back-top.visible { opacity: 1; transform: translateY(0); }
+    .back-top:hover { background: var(--c-zinc7); color: var(--c-white); }
+
+    /* ─── Divider image strip ────────────────────────────────────── */
+    .img-divider {
+      width: 100%;
+      height: clamp(180px, 25vw, 320px);
+      overflow: hidden;
+      position: relative;
+    }
+    .img-divider img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    .img-divider-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(0,0,0,0.5) 0%, transparent 40%, rgba(0,0,0,0.5) 100%);
+    }
+    .img-divider-text {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ────────────────────────────────── NAV ─── -->
+  <header class="nav" id="main-nav" role="banner">
+    <a href="#accueil" class="nav-logo" aria-label="Fan Yao – accueil">
+      FAN<span>&nbsp;YAO</span>
+    </a>
+
+    <nav aria-label="Navigation principale">
+      <ul class="nav-links">
+        <li><a href="#accueil">Accueil</a></li>
+        <li><a href="#professeurs">Professeurs</a></li>
+        <li><a href="#horaires-tarifs">Tarifs</a></li>
+        <li><a href="#medias">Médias</a></li>
+        <li><a href="#inscriptions">Inscriptions</a></li>
+        <li><a href="#a-la-carte">À la carte</a></li>
+        <li><a href="#contact" class="nav-cta">Contact</a></li>
+      </ul>
+    </nav>
+
+    <button class="nav-burger" id="burger-btn" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-nav">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- Mobile nav -->
+  <nav class="nav-mobile" id="mobile-nav" aria-label="Menu mobile" hidden>
+    <ul>
+      <li><a href="#accueil">Accueil</a></li>
+      <li><a href="#professeurs">Professeurs</a></li>
+      <li><a href="#horaires-tarifs">Tarifs</a></li>
+      <li><a href="#medias">Médias</a></li>
+      <li><a href="#inscriptions">Inscriptions</a></li>
+      <li><a href="#a-la-carte">À la carte</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <!-- ────────────────────────────── HERO ─── -->
+    <section id="accueil" aria-labelledby="hero-heading">
+      <div class="hero-bg ken-burns" role="img" aria-label="Cours de kung-fu wushu à Bordeaux"></div>
+      <div class="hero-overlay"></div>
+      <div class="hero-overlay-left"></div>
+
+      <div class="hero-content">
+        <p class="hero-eyebrow">Kung-fu Wushu · Bordeaux</p>
+        <h1 class="hero-title" id="hero-heading">
+          <span class="hero-title-word">FAN</span>
+          <span class="hero-title-word">YAO</span>
+        </h1>
+        <p class="hero-subtitle">Club de wushu kung-fu — Bordeaux & Talence</p>
+        <div class="hero-cta-row">
+          <a href="#horaires-tarifs" class="btn-primary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 12V22H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>
+            Tarifs & inscriptions
+          </a>
+          <a href="#a-propos" class="btn-outline">En savoir plus</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────── À PROPOS ─── -->
+    <section id="a-propos" aria-labelledby="about-heading">
+      <div class="container">
+        <div class="section-header reveal">
+          <p class="label label--red">À propos</p>
+          <h2 class="section-title" id="about-heading">L'art<br>du mouvement</h2>
+          <div class="section-rule"></div>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-body reveal reveal-d1">
+            <p class="about-pull">
+              "Explorer les limites du corps et de l'esprit à travers la tradition chinoise."
+            </p>
+            <p>Fan Yao enseigne le côté technique du kung-fu wushu : styles à mains nues, armes courtes et armes longues. Les routines (taolus) mêlent coups de pied, techniques de bras, postures, enroulements de bras et sauts acrobatiques.</p>
+            <p>Le club propose des cours bébé, enfant et adulte, ainsi que des ateliers de découverte sur les styles de démonstration tout au long de l'année.</p>
+            <p>La pratique développe des capacités physiques — explosivité, puissance, souplesse, hauteur de saut, coordination, endurance — mais aussi mentales : concentration, mémorisation et découverte de soi. S'inspirant de la philosophie Tao, Fan Yao adopte une approche sportive fondée sur le dépassement de soi et la confiance en soi.</p>
+
+            <div class="about-pillars">
+              <span class="about-pillar">Explosivité</span>
+              <span class="about-pillar">Coordination</span>
+              <span class="about-pillar">Souplesse</span>
+              <span class="about-pillar">Endurance</span>
+              <span class="about-pillar">Concentration</span>
+              <span class="about-pillar">Philosophie Tao</span>
+              <span class="about-pillar">Bébé · Enfant · Adulte</span>
+            </div>
+          </div>
+
+          <div class="about-image-wrap reveal reveal-d2">
+            <img
+              src="images/aaea9c_3ecfa54ae00d4d86806b3218e518d584.jpg"
+              alt="Cours de kung-fu wushu Fan Yao"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────── COMPETITION STRIP ─── -->
+    <div class="compe-strip">
+      <div class="container">
+        <div class="compe-inner">
+          <div class="compe-stat reveal">
+            <div class="compe-stat-num">2<span>013</span></div>
+            <div class="compe-stat-label">Équipe de France — Juliette</div>
+          </div>
+          <div class="compe-stat reveal reveal-d1">
+            <div class="compe-stat-num">3<span>×</span></div>
+            <div class="compe-stat-label">Championne d'Europe</div>
+          </div>
+          <div class="compe-stat reveal reveal-d2">
+            <div class="compe-stat-num">Top<span>10</span></div>
+            <div class="compe-stat-label">Mondial</div>
+          </div>
+          <div class="compe-text reveal reveal-d3">
+            <p>Un groupe compétition enfants et adultes, engagé aux championnats de ligue et de France. Certains membres ont représenté la France à l'international. Les candidats à la ceinture noire sont présentés à la ligue Nouvelle-Aquitaine dès 16 ans.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────────────────── PROFESSEURS ─── -->
+    <section id="professeurs" aria-labelledby="prof-heading">
+      <div class="container">
+        <div class="section-header reveal">
+          <p class="label label--red">Enseignants</p>
+          <h2 class="section-title" id="prof-heading">Professeurs</h2>
+          <div class="section-rule"></div>
+        </div>
+      </div>
+
+      <div class="professors-grid">
+        <!-- Benoît Denolle -->
+        <article class="professor-card reveal reveal-d1">
+          <div class="professor-photo">
+            <img
+              src="images/aaea9c_009c876448354e369e53fee0ab4d1d51.jpg"
+              alt="Portrait de Benoît Denolle, professeur de kung-fu wushu"
+              loading="lazy"
+            />
+            <div class="professor-photo-overlay"></div>
+          </div>
+          <div class="professor-info">
+            <p class="professor-title">CQP MAM · 3ème Duan</p>
+            <h3 class="professor-name">Benoît<br>Denolle</h3>
+            <p class="professor-bio">Membre de l'équipe de France de 2017 à 2022 et médaillé international. Spécialiste de l'épée, de la lance et des styles du Nord et du Sud de la Chine.</p>
+            <div class="professor-tags">
+              <span class="professor-tag">Équipe de France 2017–2022</span>
+              <span class="professor-tag">Médaillé international</span>
+              <span class="professor-tag">Épée · Lance</span>
+              <span class="professor-tag">Styles Nord & Sud</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Juliette Vauchez -->
+        <article class="professor-card reveal reveal-d2">
+          <div class="professor-photo">
+            <img
+              src="images/aaea9c_c47eb9719a2d40f686820db546c630a1.jpg"
+              alt="Portrait de Juliette Vauchez, professeure de kung-fu wushu"
+              loading="lazy"
+            />
+            <div class="professor-photo-overlay"></div>
+          </div>
+          <div class="professor-info">
+            <p class="professor-title">CQP MAM · 3ème Duan</p>
+            <h3 class="professor-name">Juliette<br>Vauchez</h3>
+            <p class="professor-bio">Membre de l'équipe de France depuis 2013, triple championne d'Europe et top 10 mondial. Spécialiste du style du Nord — mains nues, épée et lance.</p>
+            <div class="professor-tags">
+              <span class="professor-tag">Équipe de France depuis 2013</span>
+              <span class="professor-tag">Triple championne d'Europe</span>
+              <span class="professor-tag">Top 10 mondial</span>
+              <span class="professor-tag">Style du Nord</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────── MÉDIAS ─── -->
+    <section id="medias" aria-labelledby="gallery-heading">
+      <div class="container">
+        <div class="section-header reveal">
+          <p class="label label--red">Photos &amp; Vidéos</p>
+          <h2 class="section-title" id="gallery-heading">Médias</h2>
+          <div class="section-rule"></div>
+        </div>
+
+        <div class="gallery-grid" role="list" aria-label="Galerie photos Fan Yao">
+          <a class="gallery-item reveal" href="images/aaea9c_3ecfa54ae00d4d86806b3218e518d584.jpg" role="listitem" target="_blank" rel="noopener">
+            <img src="images/aaea9c_3ecfa54ae00d4d86806b3218e518d584.jpg" alt="Cours de kung-fu wushu Fan Yao" loading="lazy" />
+          </a>
+          <a class="gallery-item reveal reveal-d1" href="images/aaea9c_a53f1f9eba8d48d9bcb5cec7e5c9b3b1.jpg" role="listitem" target="_blank" rel="noopener">
+            <img src="images/aaea9c_a53f1f9eba8d48d9bcb5cec7e5c9b3b1.jpg" alt="Démonstration wushu Fan Yao" loading="lazy" />
+          </a>
+          <a class="gallery-item reveal reveal-d2" href="images/aaea9c_42807a02d5364262b198f06245cae088.jpg" role="listitem" target="_blank" rel="noopener">
+            <img src="images/aaea9c_42807a02d5364262b198f06245cae088.jpg" alt="Compétition kung-fu wushu" loading="lazy" />
+          </a>
+          <a class="gallery-item reveal" href="images/aaea9c_cd69ca676a0d4ba8a296c87625638d3d.jpg" role="listitem" target="_blank" rel="noopener">
+            <img src="images/aaea9c_cd69ca676a0d4ba8a296c87625638d3d.jpg" alt="Entraînement wushu Bordeaux" loading="lazy" />
+          </a>
+          <a class="gallery-item reveal reveal-d1" href="images/aaea9c_7740c3ca782a4e92a09c53dfdd12e820.jpg" role="listitem" target="_blank" rel="noopener">
+            <img src="images/aaea9c_7740c3ca782a4e92a09c53dfdd12e820.jpg" alt="Taolu wushu Fan Yao" loading="lazy" />
+          </a>
+          <a class="gallery-item reveal reveal-d2" href="images/aaea9c_de1798d825b7490f866643ca1a858a79.jpg" role="listitem" target="_blank" rel="noopener">
+            <img src="images/aaea9c_de1798d825b7490f866643ca1a858a79.jpg" alt="Gala kung-fu Fan Yao" loading="lazy" />
+          </a>
+          <a class="gallery-item reveal" href="images/aaea9c_65ffcb6df8f347378e939a51bc1478d0.jpg" role="listitem" target="_blank" rel="noopener">
+            <img src="images/aaea9c_65ffcb6df8f347378e939a51bc1478d0.jpg" alt="Élèves wushu Bordeaux" loading="lazy" />
+          </a>
+          <a class="gallery-item reveal reveal-d1" href="images/aaea9c_4fc5250b8d9e4d898a374faf6033189b.jpg" role="listitem" target="_blank" rel="noopener">
+            <img src="images/aaea9c_4fc5250b8d9e4d898a374faf6033189b.jpg" alt="Kung-fu arme Fan Yao" loading="lazy" />
+          </a>
+          <a class="gallery-item reveal reveal-d2" href="images/aaea9c_3174184923b6493480eadd2ff3ffc936.jpg" role="listitem" target="_blank" rel="noopener">
+            <img src="images/aaea9c_3174184923b6493480eadd2ff3ffc936.jpg" alt="Entraînement Fan Yao" loading="lazy" />
+          </a>
+          <a class="gallery-item reveal" href="images/aaea9c_e7078ec2e98c4c1d9c20f1be367eb2b9.jpg" role="listitem" target="_blank" rel="noopener">
+            <img src="images/aaea9c_e7078ec2e98c4c1d9c20f1be367eb2b9.jpg" alt="Wushu compétition équipe" loading="lazy" />
+          </a>
+          <a class="gallery-item reveal reveal-d1" href="images/aaea9c_6fd3889a05de4eaab22f04629e7f877d.jpg" role="listitem" target="_blank" rel="noopener">
+            <img src="images/aaea9c_6fd3889a05de4eaab22f04629e7f877d.jpg" alt="Fan Yao démonstration publique" loading="lazy" />
+          </a>
+        </div>
+
+        <div class="gallery-social reveal">
+          <p class="label">Suivez nos événements en direct sur</p>
+          <a class="gallery-social-link" href="https://www.instagram.com/fanyao.bordeaux/" target="_blank" rel="noopener noreferrer" aria-label="Instagram Fan Yao">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            @fanyao.bordeaux
+          </a>
+          <a class="gallery-social-link" href="https://www.facebook.com/FAN-YAO-103989061444879" target="_blank" rel="noopener noreferrer" aria-label="Facebook Fan Yao">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            Fan Yao
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── IMAGE DIVIDER ─── -->
+    <div class="img-divider">
+      <img
+        src="images/aaea9c_4c41b8e23e4443dba2c421d0a36ed34e.png"
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+      />
+      <div class="img-divider-overlay"></div>
+    </div>
+
+    <!-- ─────────────────── HORAIRES & TARIFS ─── -->
+    <section id="horaires-tarifs" aria-labelledby="tarifs-heading">
+      <div class="container">
+        <div class="section-header reveal">
+          <p class="label label--red">Frais d'inscription</p>
+          <h2 class="section-title" id="tarifs-heading">Horaires<br>&amp; Tarifs</h2>
+          <div class="section-rule"></div>
+          <p class="reveal" style="color:var(--c-zinc4);font-size:0.9rem;max-width:520px;margin-top:0.5rem;">
+            Les inscriptions sont ouvertes jusqu'aux vacances de la Toussaint. Les cours reprennent en septembre.
+          </p>
+        </div>
+
+        <div class="planning">
+          <div class="planning-card reveal reveal-d1">
+            <div class="tarif-location-tag">Planning · Bordeaux Bastide</div>
+            <div class="planning-title">Petit Institut de Chine</div>
+            <div class="planning-addr">14 cours Le Rouzic, 33000 Bordeaux Bastide</div>
+            <table><thead><tr><th scope="col">Cours</th><th scope="col">Mardi</th><th scope="col">Mercredi</th><th scope="col">Jeudi</th><th scope="col">Vendredi</th></tr></thead><tbody><tr><th scope="row" style="font-weight:400;letter-spacing:0;text-transform:none;color:var(--c-zinc5);border-bottom:1px solid var(--c-zinc8);font-size:.85rem;padding:.8rem .5rem">Compétition</th><td class="empty">—</td><td>14h00–16h00</td><td class="empty">—</td><td>20h00–21h30</td></tr><tr><th scope="row" style="font-weight:400;letter-spacing:0;text-transform:none;color:var(--c-zinc5);border-bottom:1px solid var(--c-zinc8);font-size:.85rem;padding:.8rem .5rem">Enfants (CP/CE1)</th><td>17h00–18h00</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td></tr><tr><th scope="row" style="font-weight:400;letter-spacing:0;text-transform:none;color:var(--c-zinc5);border-bottom:1px solid var(--c-zinc8);font-size:.85rem;padding:.8rem .5rem">Enfants (CE2/3ème)</th><td>18h00–19h00</td><td class="empty">—</td><td>18h00–19h00</td><td class="empty">—</td></tr><tr><th scope="row" style="font-weight:400;letter-spacing:0;text-transform:none;color:var(--c-zinc5);border-bottom:1px solid var(--c-zinc8);font-size:.85rem;padding:.8rem .5rem">Adultes (lycée et +)</th><td>20h30–22h00</td><td class="empty">—</td><td>19h00–20h30</td><td class="empty">—</td></tr></tbody></table>
+          </div>
+          <div class="planning-card reveal reveal-d2">
+            <div class="tarif-location-tag">Planning · Talence</div>
+            <div class="planning-title">CREPS</div>
+            <div class="planning-addr">653 cours de la Libération, 33400 Talence</div>
+            <table><thead><tr><th scope="col">Cours</th><th scope="col">Mercredi</th><th scope="col">Vendredi</th></tr></thead><tbody><tr><th scope="row" style="font-weight:400;letter-spacing:0;text-transform:none;color:var(--c-zinc5);border-bottom:1px solid var(--c-zinc8);font-size:.85rem;padding:.8rem .5rem">Enfants (6–14 ans)</th><td>19h00–20h00</td><td>18h00–19h00</td></tr><tr><th scope="row" style="font-weight:400;letter-spacing:0;text-transform:none;color:var(--c-zinc5);border-bottom:1px solid var(--c-zinc8);font-size:.85rem;padding:.8rem .5rem">Adultes (extra)</th><td>19h00–20h00</td><td class="empty">—</td></tr></tbody></table>
+          </div>
+        </div>
+        <div class="tarifs-grid">
+          <!-- Bastide -->
+          <div class="tarif-card reveal reveal-d1">
+            <div class="tarif-location-tag">Bordeaux Bastide</div>
+            <div class="tarif-location-name">Petit Institut<br>de Chine</div>
+            <div class="tarif-address">14 cours Le Rouzic<br>33000 Bordeaux</div>
+
+            <div class="tarif-row">
+              <span class="tarif-row-label">Enfants CP–CE1</span>
+              <span class="tarif-row-price">260 €<span class="tarif-row-period">/ an</span></span>
+            </div>
+            <div class="tarif-row">
+              <span class="tarif-row-label">Enfants CE2–3ème</span>
+              <span class="tarif-row-price">320 €<span class="tarif-row-period">/ an</span></span>
+            </div>
+            <div class="tarif-row">
+              <span class="tarif-row-label">Adultes</span>
+              <span class="tarif-row-price">420 €</span>
+            </div>
+          </div>
+
+          <!-- CREPS -->
+          <div class="tarif-card reveal reveal-d2">
+            <div class="tarif-location-tag">Talence</div>
+            <div class="tarif-location-name">CREPS</div>
+            <div class="tarif-address">653 Cours de la Libération<br>33400 Talence</div>
+
+            <div class="tarif-row">
+              <span class="tarif-row-label">Enfants CP–3ème</span>
+              <span class="tarif-row-price">350 €<span class="tarif-row-period">/ an</span></span>
+            </div>
+            <div class="tarif-row">
+              <span class="tarif-row-label">Adulte extra</span>
+              <span class="tarif-row-price">250 €<span class="tarif-row-period">/ an</span></span>
+            </div>
+          </div>
+
+          <!-- Discounts -->
+          <div class="tarif-discounts reveal reveal-d3">
+            <div class="tarif-discount-title">Réductions disponibles</div>
+            <div class="tarif-discount-items">
+              <div class="tarif-discount-item">
+                <span class="tarif-discount-badge">−10%</span>
+                <span>Tarif famille</span>
+              </div>
+              <div class="tarif-discount-item">
+                <span class="tarif-discount-badge">−10%</span>
+                <span>Tarif étudiant</span>
+              </div>
+            </div>
+            <a href="#inscriptions" class="btn-primary" style="white-space:nowrap;">
+              Télécharger les dossiers
+            </a>
+          </div>
+        </div>
+
+        <div class="tarif-note reveal">
+          <strong style="color:var(--c-white);">Inscriptions ouvertes</strong> — Les cours reprennent chaque année en septembre. Les dossiers d'inscription sont à télécharger dans la section Inscriptions ci-dessous. Pour toute question, contactez-nous par email ou par téléphone.
+        </div>
+      </div>
+    </section>
+
+    <!-- ────────────────────────── À LA CARTE ─── -->
+    <section id="a-la-carte" aria-labelledby="carte-heading">
+      <div class="container">
+        <div class="section-header reveal">
+          <p class="label label--red">Services</p>
+          <h2 class="section-title" id="carte-heading">À la carte</h2>
+          <div class="section-rule"></div>
+          <p class="reveal" style="color:var(--c-zinc4);font-size:0.9rem;max-width:520px;margin-top:0.5rem;">
+            Cours particuliers, stages en déplacement et événements sur mesure — Juliette et Benoît se déplacent en Nouvelle-Aquitaine et au-delà.
+          </p>
+        </div>
+
+        <div class="services-grid">
+          <!-- Cours particuliers -->
+          <article class="service-card reveal reveal-d1">
+            <div class="service-num" aria-hidden="true">01</div>
+            <h3 class="service-name">Cours<br>particuliers</h3>
+            <p class="service-desc">Accompagnement personnalisé jusqu'à 3 personnes de niveau similaire. Format standard : 1 cours par semaine sur 4 séances, à Bordeaux. Disponibilités : mercredi matin, jeudi matin et dimanche.</p>
+            <div class="service-price-list">
+              <div class="service-price-row">
+                <span class="service-price-label">Adhérent</span>
+                <span class="service-price-val">100 € <span style="font-size:0.75rem;color:var(--c-zinc5);font-weight:400;">/ 4 séances</span></span>
+              </div>
+              <div class="service-price-row">
+                <span class="service-price-label">Non-adhérent</span>
+                <span class="service-price-val">200 € <span style="font-size:0.75rem;color:var(--c-zinc5);font-weight:400;">/ 4 séances</span></span>
+              </div>
+            </div>
+            <div class="service-avail">Mer. matin · Jeu. matin · Dimanche</div>
+          </article>
+
+          <!-- Stages -->
+          <article class="service-card reveal reveal-d2">
+            <div class="service-num" aria-hidden="true">02</div>
+            <h3 class="service-name">Stages</h3>
+            <p class="service-desc">Stages à Bordeaux ou en déplacement dans la région. Format standard : 2 séances le samedi + 1 séance le dimanche matin. Déplacements et hébergement pris en charge par l'organisateur.</p>
+            <div class="service-price-list">
+              <div class="service-price-row">
+                <span class="service-price-label">Intervenant individuel</span>
+                <span class="service-price-val">500 € <span style="font-size:0.75rem;color:var(--c-zinc5);font-weight:400;">/ week-end</span></span>
+              </div>
+              <div class="service-price-row">
+                <span class="service-price-label">Duo Juliette + Benoît</span>
+                <span class="service-price-val">800 € <span style="font-size:0.75rem;color:var(--c-zinc5);font-weight:400;">/ week-end</span></span>
+              </div>
+            </div>
+            <div class="service-avail">Bordeaux · Nouvelle-Aquitaine · France</div>
+          </article>
+
+          <!-- Événements -->
+          <article class="service-card reveal reveal-d3">
+            <div class="service-num" aria-hidden="true">03</div>
+            <h3 class="service-name">Événements</h3>
+            <p class="service-desc">Démonstrations sur mesure ou séances de découverte pour mariages, Nouvel An chinois, festivals, événements d'entreprise (team-building) et anniversaires. Tarif sur devis selon la nature et la durée de l'intervention.</p>
+            <div class="service-price-list">
+              <div class="service-price-row">
+                <span class="service-price-label">Tarif</span>
+                <span class="service-price-val" style="font-size:1rem;">Sur devis</span>
+              </div>
+            </div>
+            <div class="service-avail">Mariage · Fête · Entreprise · Festival</div>
+          </article>
+        </div>
+
+        <!-- Contact form -->
+        <div class="service-form-wrap reveal">
+          <h3 class="service-form-title">Demande<br>d'informations</h3>
+          <form action="mailto:fanyao.33.wushu@hotmail.com" method="get" enctype="text/plain" novalidate>
+            <div class="form-row">
+              <div class="form-field">
+                <label class="form-label" for="fname">Prénom</label>
+                <input class="form-input" type="text" id="fname" name="prenom" autocomplete="given-name" placeholder="Votre prénom" required />
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="lname">Nom</label>
+                <input class="form-input" type="text" id="lname" name="nom" autocomplete="family-name" placeholder="Votre nom" required />
+              </div>
+            </div>
+            <div class="form-field" style="margin-bottom:1.5rem;">
+              <label class="form-label" for="email">Email</label>
+              <input class="form-input" type="email" id="email" name="email" autocomplete="email" placeholder="votre@email.fr" required />
+            </div>
+            <button type="submit" class="btn-primary">Envoyer la demande</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────── INSCRIPTIONS ─── -->
+    <section id="inscriptions" aria-labelledby="inscriptions-heading">
+      <div class="container">
+        <div class="section-header reveal">
+          <p class="label label--red">Rejoindre le club</p>
+          <h2 class="section-title" id="inscriptions-heading">Inscriptions</h2>
+          <div class="section-rule"></div>
+          <p class="reveal" style="color:var(--c-zinc4);font-size:0.9rem;max-width:520px;margin-top:0.5rem;">
+            Téléchargez les dossiers correspondant à votre lieu de pratique et renvoyez-les complétés pour finaliser votre inscription.
+          </p>
+        </div>
+
+        <div class="inscriptions-grid">
+          <!-- Bastide -->
+          <div class="inscription-card reveal reveal-d1">
+            <div class="inscription-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <h3 class="inscription-title">Dossier Bastide</h3>
+            <p class="inscription-desc">Formulaire d'inscription pour le Petit Institut de Chine, 14 cours Le Rouzic, Bordeaux Bastide.</p>
+            <a class="inscription-link" href="https://www.fanyao.fr/_files/ugd/aaea9c_aa754ecbabb74103b0eb8a42604b2c8d.pdf" target="_blank" rel="noopener noreferrer">
+              Télécharger PDF
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+
+          <!-- CREPS -->
+          <div class="inscription-card reveal reveal-d2">
+            <div class="inscription-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <h3 class="inscription-title">Dossier CREPS</h3>
+            <p class="inscription-desc">Formulaire d'inscription pour le CREPS, 653 Cours de la Libération, Talence.</p>
+            <a class="inscription-link" href="https://www.fanyao.fr/_files/ugd/aaea9c_e3e4d36f95044d49a072b1e0490dc3ef.pdf" target="_blank" rel="noopener noreferrer">
+              Télécharger PDF
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+
+          <!-- Formulaire santé -->
+          <div class="inscription-card reveal reveal-d3">
+            <div class="inscription-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <h3 class="inscription-title">Formulaire santé</h3>
+            <p class="inscription-desc">Questionnaire médical à compléter et à joindre à votre dossier d'inscription.</p>
+            <a class="inscription-link" href="https://www.fanyao.fr/_files/ugd/aaea9c_eb9540552c974c4fab7c4db9e41b8406.pdf" target="_blank" rel="noopener noreferrer">
+              Télécharger PDF
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ────────────────────────────── CONTACT ─── -->
+    <section id="contact" aria-labelledby="contact-heading">
+      <div class="container">
+        <div class="contact-grid">
+          <div>
+            <h2 class="contact-headline reveal" id="contact-heading">
+              Nous<br><em>contacter</em>
+            </h2>
+
+            <div class="contact-info-block">
+              <div class="contact-info-item reveal reveal-d1">
+                <div class="contact-info-tag">Téléphone</div>
+                <div class="contact-info-value">
+                  <a href="tel:+33762707414">07 62 70 74 14</a>
+                </div>
+              </div>
+
+              <div class="contact-info-item reveal reveal-d2">
+                <div class="contact-info-tag">Email</div>
+                <div class="contact-info-value">
+                  <a href="mailto:fanyao.33.wushu@hotmail.com">fanyao.33.wushu@hotmail.com</a>
+                </div>
+              </div>
+
+              <div class="contact-info-item reveal reveal-d3">
+                <div class="contact-info-tag">Horaires de réponse</div>
+                <div class="contact-info-value">
+                  Nous répondons dans les meilleurs délais.<br>
+                  Pour les inscriptions, pensez à télécharger les dossiers.
+                </div>
+              </div>
+            </div>
+
+            <div class="contact-social reveal reveal-d4">
+              <a class="contact-social-btn" href="https://www.instagram.com/fanyao.bordeaux/" target="_blank" rel="noopener noreferrer">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                Instagram
+              </a>
+              <a class="contact-social-btn" href="https://www.facebook.com/FAN-YAO-103989061444879" target="_blank" rel="noopener noreferrer">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                Facebook
+              </a>
+            </div>
+          </div>
+
+          <div class="contact-map-note reveal reveal-d1">
+            <div class="contact-location-card">
+              <div class="contact-location-name">Petit Institut de Chine</div>
+              <div class="contact-location-addr">
+                14 cours Le Rouzic<br>
+                33000 Bordeaux Bastide
+              </div>
+            </div>
+            <div class="contact-location-card">
+              <div class="contact-location-name">CREPS Talence</div>
+              <div class="contact-location-addr">
+                653 Cours de la Libération<br>
+                33400 Talence
+              </div>
+            </div>
+
+            <div style="padding:2rem;background:var(--c-zinc9);border:1px solid var(--c-zinc8);">
+              <p class="label" style="margin-bottom:1rem;">Inscriptions</p>
+              <p style="color:var(--c-zinc4);font-size:0.875rem;line-height:1.7;margin-bottom:1.5rem;">
+                Les inscriptions sont ouvertes jusqu'aux vacances de la Toussaint. Téléchargez les dossiers dans la section Inscriptions et renvoyez-les à l'adresse email ci-dessus.
+              </p>
+              <a href="#inscriptions" class="btn-outline" style="display:inline-flex;">Voir les dossiers</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ────────────────────────────── FOOTER ─── -->
+  <footer>
+    <p class="footer-copy">© 2026 Fan Yao — Kung-fu Wushu Bordeaux</p>
+    <nav class="footer-links" aria-label="Liens footer">
+      <a href="mailto:fanyao.33.wushu@hotmail.com">fanyao.33.wushu@hotmail.com</a>
+      <a href="https://www.instagram.com/fanyao.bordeaux/" target="_blank" rel="noopener noreferrer">Instagram</a>
+      <a href="https://www.facebook.com/FAN-YAO-103989061444879" target="_blank" rel="noopener noreferrer">Facebook</a>
+    </nav>
+  </footer>
+
+  <!-- Back to top -->
+  <button class="back-top" id="back-top" aria-label="Retour en haut de page">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
+
+  <script>
+    // ── Navbar scroll behavior ──────────────────────
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    // ── Burger / mobile menu ────────────────────────
+    const burger = document.getElementById('burger-btn');
+    const mobileNav = document.getElementById('mobile-nav');
+
+    burger.addEventListener('click', () => {
+      const isOpen = burger.classList.toggle('open');
+      burger.setAttribute('aria-expanded', isOpen);
+      mobileNav.hidden = !isOpen;
+      mobileNav.classList.toggle('open', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+
+    mobileNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        burger.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
+        mobileNav.hidden = true;
+        mobileNav.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // ── Scroll reveal (Intersection Observer) ──────
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    revealEls.forEach(el => observer.observe(el));
+
+    // ── Active nav link on scroll ───────────────────
+    const sections = document.querySelectorAll('section[id], #a-propos, #professeurs, #medias, #horaires-tarifs, #a-la-carte, #inscriptions, #contact');
+    const navLinks = document.querySelectorAll('.nav-links a');
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('section[id]').forEach(s => sectionObserver.observe(s));
+
+    // ── Back to top ─────────────────────────────────
+    const backTop = document.getElementById('back-top');
+    window.addEventListener('scroll', () => {
+      backTop.classList.toggle('visible', window.scrollY > 600);
+    }, { passive: true });
+    backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  </script>
+</body>
+</html>

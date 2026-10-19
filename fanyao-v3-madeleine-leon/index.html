@@ -1,0 +1,2601 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Fan Yao — Kung-fu Wushu à Bordeaux. Cours pour enfants et adultes, compétition, stages et événements. Professeurs membres de l'équipe de France." />
+  <title>Fan Yao — Kung-fu Wushu Bordeaux</title>
+
+  <!-- Google Fonts: Cormorant Garamond (serif display) + DM Sans (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Tokens & Reset ────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* Palette Madeleine & Léon — chaleureux, éditorial, crème/terracotta */
+      --cream:      #F6F1E7;
+      --cream-dark: #EDE4D3;
+      --ink:        #1A1208;
+      --ink-soft:   #3D2F1F;
+      --ink-muted:  #7A6650;
+      --ink-faint:  #B5A48E;
+      --terra:      #C4694A;   /* accent chaud — terracotta */
+      --terra-dark: #A0512F;
+      --terra-pale: #EDD6CB;
+      --sage:       #8A9B7E;   /* vert sauge doux */
+      --sage-pale:  #D4DDD0;
+      --gold:       #C9962B;   /* or encre wushu */
+      --gold-pale:  #F0E0AC;
+
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans:  'DM Sans', system-ui, sans-serif;
+
+      --radius-sm: 2px;
+      --radius:    6px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      scrollbar-color: var(--ink-faint) var(--cream);
+      scrollbar-width: thin;
+    }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--cream); }
+    ::-webkit-scrollbar-thumb { background: var(--ink-faint); border-radius: 99px; }
+
+    ::selection { background: var(--terra); color: #fff; }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    button { cursor: pointer; border: none; background: none; font: inherit; color: inherit; }
+
+    /* ─── Utility ─────────────────────────────────────────────────── */
+    .eyebrow {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--terra);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 clamp(1.25rem, 5vw, 4rem);
+    }
+
+    /* ─── Scroll reveal ─────────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.2s; }
+    .reveal-d3 { transition-delay: 0.32s; }
+    .reveal-d4 { transition-delay: 0.44s; }
+    .reveal-d5 { transition-delay: 0.56s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .hero-word { animation: none !important; opacity: 1 !important; transform: none !important; }
+      .hero-eyebrow, .hero-subtitle, .hero-cta-row { animation: none !important; opacity: 1 !important; transform: none !important; }
+      canvas#particles { display: none; }
+      .brush-stroke { display: none; }
+      .hero-bg { animation: none !important; }
+      /* Silhouettes: static, fully visible */
+      .sil-inner { animation: none !important; opacity: 0.82 !important; clip-path: none !important; transform: none !important; }
+      .blade-trail path { animation: none !important; stroke-dashoffset: 0 !important; opacity: 0.45; }
+      .sil-splash { display: none !important; }
+    }
+
+    /* ─── Hero Silhouettes ──────────────────────────────────────── */
+    .hero-silhouettes {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    /* Outer: absolute positioning + parallax target (JS sets transform) */
+    .sil-outer {
+      position: absolute;
+    }
+
+    /* Inner: entry + idle CSS animations */
+    .sil-inner {
+      width: 100%;
+      display: block;
+    }
+
+    /* Silhouettes statiques : animations, traînées et éclats désactivés */
+    .hero-silhouettes .sil-inner { animation: none !important; opacity: 0.82 !important; clip-path: none !important; transform: none !important; }
+    .hero-silhouettes .blade-trail,
+    .hero-silhouettes .sil-splash { display: none !important; }
+
+    /* SVG: cream fill, via CSS color inheritance */
+    .sil-svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      color: rgba(246, 241, 231, 0.87);
+    }
+
+    /* ── Figure 1: Jump / Saut acrobatique (upper-left) ── */
+    .sil-jump-outer {
+      top: 4vh;
+      left: 5vw;
+      width: clamp(170px, 26vw, 295px);
+    }
+    .sil-jump-inner {
+      transform-origin: 50% 40%;
+      animation:
+        entry-jump 1.0s 0.35s cubic-bezier(0.22, 1, 0.36, 1) both,
+        idle-jump  4.4s 1.55s ease-in-out infinite;
+    }
+    @keyframes entry-jump {
+      from {
+        opacity: 0;
+        clip-path: inset(0 0 100% 0 round 1px);
+        transform: translateY(-24px) rotate(-5deg);
+      }
+      to {
+        opacity: 1;
+        clip-path: inset(0 0 0% 0);
+        transform: translateY(0) rotate(0deg);
+      }
+    }
+    @keyframes idle-jump {
+      0%, 100% { transform: translateY(0px)  rotate(0deg);   }
+      30%      { transform: translateY(-10px) rotate(1.4deg); }
+      65%      { transform: translateY(-5px)  rotate(-0.4deg); }
+    }
+
+    /* ── Figure 2: Lunge / Fente au bâton (bottom-center) ── */
+    .sil-lunge-outer {
+      bottom: 0;
+      left: 46%;
+      width: clamp(120px, 20vw, 240px);
+    }
+    .sil-lunge-inner {
+      transform-origin: 50% 100%;
+      animation:
+        entry-lunge 1.1s 0.65s cubic-bezier(0.22, 1, 0.36, 1) both,
+        idle-lunge  5.8s 1.9s  ease-in-out infinite;
+    }
+    @keyframes entry-lunge {
+      from {
+        opacity: 0;
+        clip-path: inset(100% 0 0 0 round 1px);
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        clip-path: inset(0% 0 0 0);
+        transform: translateY(0);
+      }
+    }
+    @keyframes idle-lunge {
+      0%, 100% { transform: rotate(0deg); }
+      45%      { transform: rotate(0.65deg); }
+    }
+
+    /* ── Figure 3: Balance / Équilibre au sabre (right) ── */
+    .sil-balance-outer {
+      top: 6vh;
+      right: 3%;
+      width: clamp(195px, 32vw, 390px);
+    }
+    .sil-balance-inner {
+      transform-origin: 55% 92%;   /* near planted foot */
+      animation:
+        entry-balance 1.2s 0.90s cubic-bezier(0.22, 1, 0.36, 1) both,
+        idle-balance  7.2s 2.2s   ease-in-out infinite;
+    }
+    @keyframes entry-balance {
+      from {
+        opacity: 0;
+        clip-path: inset(0 0 0 100% round 1px);
+        transform: translateX(20px) rotate(3.5deg);
+      }
+      to {
+        opacity: 1;
+        clip-path: inset(0 0 0 0%);
+        transform: translateX(0) rotate(0deg);
+      }
+    }
+    @keyframes idle-balance {
+      0%, 100% { transform: rotate(0deg); }
+      28%      { transform: rotate(-0.55deg); }
+      72%      { transform: rotate(0.85deg); }
+    }
+
+    /* ── Blade trails (animated stroke-dashoffset) ── */
+    .blade-trail {
+      position: absolute;
+      pointer-events: none;
+      overflow: visible;
+      color: rgba(201, 150, 43, 0.62); /* gold-tinted arc */
+    }
+    .blade-trail path {
+      stroke: currentColor;
+      stroke-linecap: round;
+      fill: none;
+    }
+
+    /* Sword trail — balance figure, horizontal near sword area */
+    .blade-balance {
+      top: 26%;
+      left: -2%;
+      width: 90%;
+    }
+    .blade-balance path {
+      stroke-width: 1.8;
+      stroke-dasharray: 340;
+      stroke-dashoffset: 340;
+      animation:
+        blade-draw  0.75s 1.55s cubic-bezier(0.22, 1, 0.36, 1) forwards,
+        blade-pulse 3.8s  2.5s  ease-in-out infinite;
+    }
+
+    /* Staff trail — lunge figure, diagonal */
+    .blade-lunge-trail {
+      bottom: 15%;
+      left: 50%;
+      width: 55%;
+      transform: translateX(-50%);
+    }
+    .blade-lunge-trail path {
+      stroke-width: 1.4;
+      stroke-dasharray: 210;
+      stroke-dashoffset: 210;
+      animation:
+        blade-draw  0.6s 1.8s  cubic-bezier(0.22, 1, 0.36, 1) forwards,
+        blade-pulse 4.5s 2.7s  ease-in-out infinite;
+    }
+
+    @keyframes blade-draw  { to { stroke-dashoffset: 0; } }
+    @keyframes blade-pulse {
+      0%, 100% { opacity: 0.62; }
+      50%      { opacity: 1;    }
+    }
+
+    /* ── Ink splash (entry impact on jump figure) ── */
+    .sil-splash {
+      position: absolute;
+      bottom: -8%;
+      left: 10%;
+      width: 80%;
+      pointer-events: none;
+      color: rgba(201, 150, 43, 0.55);
+      overflow: visible;
+    }
+    .splash-ray {
+      stroke: currentColor;
+      stroke-linecap: round;
+      fill: none;
+      stroke-dasharray: 28;
+      stroke-dashoffset: 28;
+    }
+    .splash-ray:nth-child(1) { animation: splash-out 0.45s 1.15s ease-out forwards; }
+    .splash-ray:nth-child(2) { animation: splash-out 0.4s  1.2s  ease-out forwards; }
+    .splash-ray:nth-child(3) { animation: splash-out 0.35s 1.25s ease-out forwards; }
+    .splash-ray:nth-child(4) { animation: splash-out 0.4s  1.2s  ease-out forwards; }
+    .splash-ray:nth-child(5) { animation: splash-out 0.45s 1.15s ease-out forwards; }
+    @keyframes splash-out {
+      from { stroke-dashoffset: 28; opacity: 1;   }
+      to   { stroke-dashoffset: 0;  opacity: 0;   }
+    }
+
+    /* ── Mobile: hide lunge, scale others ── */
+    @media (max-width: 640px) {
+      .sil-lunge-outer      { display: none; }
+      .sil-jump-outer  { width: clamp(120px, 36vw, 180px); top: 7vh; left: 1vw; }
+      .sil-balance-outer    { width: clamp(140px, 42vw, 200px); top: 9vh; right: 0; }
+    }
+
+    /* ─── Particles canvas ──────────────────────────────────────── */
+    #particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.35;
+    }
+
+    /* ─── NAV ─────────────────────────────────────────────────────── */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      background: rgba(246,241,231,0.96);
+      box-shadow: 0 1px 0 rgba(26,18,8,0.08);
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(1.25rem, 5vw, 3.5rem);
+      transition: background 0.5s ease, box-shadow 0.5s ease;
+    }
+    .nav.scrolled {
+      background: rgba(246,241,231,0.94);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 1px 0 rgba(26,18,8,0.08);
+    }
+
+    .nav-logo {
+      font-family: var(--font-serif);
+      font-size: 1.55rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      display: flex;
+      align-items: baseline;
+      gap: 0.1em;
+      line-height: 1;
+    }
+    .nav-logo em {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--terra);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.75rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 13.5px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0; right: 0;
+      height: 1px;
+      background: var(--terra);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--ink); }
+    .nav-links a:hover::after,
+    .nav-links a.active::after { transform: scaleX(1); }
+
+    .nav-cta {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.55rem 1.25rem;
+      background: var(--terra);
+      color: #fff;
+      border-radius: var(--radius-sm);
+      transition: background 0.2s, transform 0.15s;
+    }
+    .nav-cta:hover { background: var(--terra-dark); transform: translateY(-1px); }
+    .nav-links a.nav-cta, .nav-links a.nav-cta:hover { color: #fff; }
+    .nav-links a.nav-cta::after { display: none; }
+
+    /* Burger */
+    .nav-burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      width: 26px;
+      padding: 4px 0;
+      z-index: 201;
+    }
+    .nav-burger span {
+      display: block;
+      width: 100%;
+      height: 1.5px;
+      background: var(--ink);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* Mobile menu */
+    .nav-mobile {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--cream);
+      z-index: 199;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 0;
+      padding: 5rem 2rem;
+    }
+    .nav-mobile.open { display: flex; }
+    .nav-mobile ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      text-align: center;
+    }
+    .nav-mobile a {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 8vw, 3.25rem);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--ink-soft);
+      transition: color 0.2s;
+    }
+    .nav-mobile a:hover { color: var(--terra); }
+
+    @media (max-width: 860px) {
+      .nav-links, .nav-cta { display: none; }
+      .nav-burger { display: flex; }
+    }
+
+    /* ─── HERO ────────────────────────────────────────────────────── */
+    #accueil {
+      position: relative;
+      width: 100%;
+      height: 100dvh;
+      min-height: 600px;
+      overflow: hidden;
+      background: var(--ink);
+    }
+
+    .hero-bg {
+      position: absolute;
+      top: 88px;
+      right: clamp(1rem, 6vw, 6rem);
+      width: min(46vw, 640px);
+      aspect-ratio: 588 / 510;
+      background: linear-gradient(165deg, #f6f1e7 0%, #e8d9c0 50%, #c9962b 100%);
+      -webkit-mask: url('images/silhouettes-mask.png') center / contain no-repeat;
+              mask: url('images/silhouettes-mask.png') center / contain no-repeat;
+      z-index: 1;
+    }
+    @media (max-width: 860px) {
+      .hero-bg { left: 50%; right: auto; width: min(88vw, 460px); top: 80px; transform: translateX(-50%); }
+    }
+    .hero-silhouettes { display: none !important; }
+
+    @keyframes gentle-zoom {
+      0%   { transform: scale(1) translate(0,0); }
+      100% { transform: scale(1.06) translate(-1%, -1%); }
+    }
+
+    /* warm-toned overlay — different from v1 black overlay */
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        160deg,
+        rgba(26,18,8,0.72) 0%,
+        rgba(60,30,10,0.55) 40%,
+        rgba(196,105,74,0.15) 70%,
+        rgba(26,18,8,0.65) 100%
+      );
+    }
+    .hero-overlay-bottom {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 55%;
+      background: linear-gradient(to top, rgba(26,18,8,0.88) 0%, transparent 100%);
+    }
+
+    /* SVG brush stroke decorations */
+    .brush-stroke {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.18;
+    }
+    .brush-stroke-1 {
+      top: 10%;
+      right: 4%;
+      width: clamp(120px, 18vw, 220px);
+      transform: rotate(-15deg);
+    }
+    .brush-stroke-2 {
+      bottom: 18%;
+      left: 3%;
+      width: clamp(80px, 12vw, 150px);
+      transform: rotate(8deg);
+      opacity: 0.13;
+    }
+
+    .hero-content {
+      position: absolute;
+      bottom: clamp(3.5rem, 9vh, 6rem);
+      left: clamp(1.25rem, 5vw, 4rem);
+      right: clamp(1.25rem, 5vw, 4rem);
+      max-width: 860px;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--terra-pale);
+      margin-bottom: 1.25rem;
+      opacity: 0;
+      animation: fade-up 0.6s 0.25s ease forwards;
+    }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(5rem, 15vw, 11rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 0.9;
+      letter-spacing: -0.01em;
+      color: #fff;
+      overflow: hidden;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0 0.2em;
+    }
+
+    .hero-word {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(110%);
+    }
+    .hero-word:nth-child(1) { animation: word-in 0.85s 0.45s cubic-bezier(0.22,1,0.36,1) forwards; }
+    .hero-word:nth-child(2) { animation: word-in 0.85s 0.62s cubic-bezier(0.22,1,0.36,1) forwards; }
+
+    @keyframes word-in { to { opacity: 1; transform: translateY(0); } }
+    @keyframes fade-up { to { opacity: 1; transform: translateY(0); } }
+
+    .hero-subtitle {
+      margin-top: 1.5rem;
+      font-family: var(--font-sans);
+      font-size: clamp(0.8rem, 1.6vw, 1rem);
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+      opacity: 0;
+      animation: fade-up 0.6s 0.9s ease forwards;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 2.5rem;
+      opacity: 0;
+      animation: fade-up 0.6s 1.05s ease forwards;
+    }
+
+    .btn-warm {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 2.25rem;
+      background: var(--terra);
+      color: #fff;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border-radius: var(--radius-sm);
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-warm:hover { background: var(--terra-dark); transform: translateY(-1px); }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 2.25rem;
+      border: 1.5px solid rgba(255,255,255,0.45);
+      color: rgba(255,255,255,0.85);
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border-radius: var(--radius-sm);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.9); color: #fff; }
+
+    /* scroll indicator */
+    .hero-scroll {
+      position: absolute;
+      bottom: 2rem;
+      right: clamp(1.25rem, 5vw, 4rem);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      opacity: 0;
+      animation: fade-up 0.6s 1.3s ease forwards;
+    }
+    .hero-scroll-line {
+      width: 1px;
+      height: 50px;
+      background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.5));
+      animation: scroll-line 2s 1.5s ease-in-out infinite;
+    }
+    @keyframes scroll-line {
+      0%,100% { transform: scaleY(1); opacity: 0.6; }
+      50% { transform: scaleY(1.3); opacity: 1; }
+    }
+    .hero-scroll-label {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+    }
+
+    /* ─── Section shared ────────────────────────────────────────── */
+    section { padding: clamp(5rem, 10vh, 7rem) 0; position: relative; }
+
+    .section-header {
+      margin-bottom: clamp(2.5rem, 5vh, 4rem);
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2.8rem, 6.5vw, 5.5rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1;
+      color: var(--ink);
+      margin-top: 0.5rem;
+    }
+
+    .section-ornament {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+    .section-ornament-line {
+      width: 2.5rem;
+      height: 1px;
+      background: var(--terra);
+    }
+    .section-ornament-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--terra);
+    }
+
+    /* ─── À PROPOS ──────────────────────────────────────────────── */
+    #a-propos {
+      background: var(--cream);
+      border-top: 1px solid rgba(26,18,8,0.08);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(3rem, 6vw, 5rem);
+      align-items: start;
+    }
+
+    .about-pull {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 2.8vw, 2.25rem);
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.3;
+      color: var(--ink-soft);
+      border-left: 2px solid var(--terra);
+      padding-left: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .about-body p {
+      color: var(--ink-muted);
+      font-size: 0.95rem;
+      line-height: 1.85;
+      margin-bottom: 1rem;
+    }
+
+    .about-pillars {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 2rem;
+    }
+    .about-pillar {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      border: 1px solid rgba(196,105,74,0.35);
+      background: var(--terra-pale);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--terra-dark);
+      border-radius: var(--radius-sm);
+    }
+
+    .about-image-wrap {
+      position: relative;
+      aspect-ratio: 4/5;
+      overflow: hidden;
+      border-radius: var(--radius);
+    }
+    .about-image-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: sepia(15%) saturate(0.85);
+      transition: filter 0.6s, transform 0.6s cubic-bezier(0.22,1,0.36,1);
+    }
+    .about-image-wrap:hover img {
+      filter: sepia(0%) saturate(1);
+      transform: scale(1.03);
+    }
+    .about-image-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 1.5rem;
+      background: linear-gradient(to top, rgba(26,18,8,0.7), transparent);
+      color: rgba(255,255,255,0.8);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ─── Competition strip ─────────────────────────────────────── */
+    .compe-strip {
+      background: var(--ink);
+      padding: clamp(3rem, 6vh, 4.5rem) 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .compe-strip::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 20% 50%, rgba(196,105,74,0.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .compe-inner {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2.5rem 4rem;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .compe-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .compe-stat-num {
+      font-family: var(--font-serif);
+      font-size: clamp(3.5rem, 7vw, 5.5rem);
+      font-weight: 300;
+      font-style: italic;
+      color: #fff;
+      line-height: 1;
+    }
+    .compe-stat-num em { color: var(--terra); font-style: normal; }
+    .compe-stat-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+    }
+    .compe-text {
+      max-width: 460px;
+      color: rgba(255,255,255,0.55);
+      font-size: 0.9rem;
+      line-height: 1.8;
+    }
+
+    /* ─── PROFESSEURS ───────────────────────────────────────────── */
+    #professeurs { background: var(--cream-dark); }
+
+    .professors-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+
+    .professor-card {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: var(--cream);
+      box-shadow: 0 2px 20px rgba(26,18,8,0.07);
+      transition: box-shadow 0.4s, transform 0.4s cubic-bezier(0.22,1,0.36,1);
+    }
+    .professor-card:hover {
+      box-shadow: 0 8px 40px rgba(26,18,8,0.14);
+      transform: translateY(-3px);
+    }
+
+    .professor-photo {
+      position: relative;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+    }
+    .professor-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      filter: sepia(12%) saturate(0.85);
+      transition: filter 0.5s, transform 0.6s cubic-bezier(0.22,1,0.36,1);
+    }
+    .professor-card:hover .professor-photo img {
+      filter: sepia(0%) saturate(1.05);
+      transform: scale(1.04);
+    }
+    .professor-photo-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(26,18,8,0.6) 0%, transparent 50%);
+    }
+
+    .professor-info {
+      padding: 2rem 2rem 2.25rem;
+    }
+
+    .professor-name {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 3.5vw, 2.75rem);
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.05;
+      color: var(--ink);
+      margin-bottom: 0.4rem;
+    }
+
+    .professor-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--terra);
+      margin-bottom: 1.25rem;
+    }
+
+    .professor-bio {
+      color: var(--ink-muted);
+      font-size: 0.875rem;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .professor-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .professor-tag {
+      padding: 0.25rem 0.7rem;
+      background: var(--cream-dark);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      border-radius: var(--radius-sm);
+    }
+
+    @media (max-width: 640px) {
+      .professors-wrap { grid-template-columns: 1fr; }
+    }
+
+    /* ─── MÉDIAS / GALERIE ──────────────────────────────────────── */
+    #medias { background: var(--cream); }
+
+    .gallery-grid {
+      columns: 3;
+      column-gap: 10px;
+    }
+    .gallery-item {
+      break-inside: avoid;
+      margin-bottom: 10px;
+      overflow: hidden;
+      display: block;
+      border-radius: var(--radius-sm);
+    }
+    .gallery-item img {
+      width: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s cubic-bezier(0.22,1,0.36,1), filter 0.4s;
+      filter: sepia(15%) saturate(0.8);
+    }
+    .gallery-item:hover img {
+      transform: scale(1.05);
+      filter: sepia(0%) saturate(1.05);
+    }
+
+    @media (max-width: 768px) { .gallery-grid { columns: 2; } }
+    @media (max-width: 480px) { .gallery-grid { columns: 1; } }
+
+    .gallery-social {
+      margin-top: 3rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .gallery-social-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+    .gallery-social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: var(--ink-muted);
+      border-bottom: 1px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+      padding-bottom: 1px;
+    }
+    .gallery-social-link:hover { color: var(--terra); border-color: var(--terra); }
+
+    /* ─── Image divider ─────────────────────────────────────────── */
+    .img-divider {
+      width: 100%;
+      height: clamp(200px, 28vw, 360px);
+      overflow: hidden;
+      position: relative;
+    }
+    .img-divider img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: sepia(20%) saturate(0.7);
+    }
+    .img-divider-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to right,
+        rgba(246,241,231,0.4) 0%,
+        rgba(196,105,74,0.08) 50%,
+        rgba(246,241,231,0.4) 100%
+      );
+    }
+    .img-divider-quote {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .img-divider-quote blockquote {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+      font-weight: 300;
+      font-style: italic;
+      color: #fff;
+      text-align: center;
+      text-shadow: 0 2px 12px rgba(26,18,8,0.5);
+      max-width: 700px;
+      padding: 0 2rem;
+    }
+
+    /* ─── HORAIRES & TARIFS ─────────────────────────────────────── */
+    #horaires-tarifs { background: var(--cream-dark); }
+
+    .planning {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .planning-card {
+      background: var(--cream);
+      border: 1px solid rgba(26,18,8,0.07);
+      border-radius: var(--radius);
+      padding: 2rem 2rem 2rem;
+      overflow-x: auto;
+      box-shadow: 0 1px 8px rgba(26,18,8,0.04);
+    }
+
+    .planning-location-tag {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--terra);
+      margin-bottom: 0.4rem;
+    }
+    .planning-title {
+      font-family: var(--font-serif);
+      font-size: 1.6rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--ink);
+      margin-bottom: 0.25rem;
+    }
+    .planning-addr {
+      font-size: 0.8rem;
+      color: var(--ink-faint);
+      margin-bottom: 1.5rem;
+    }
+
+    .planning-card table { width: 100%; border-collapse: collapse; min-width: 400px; }
+    .planning-card thead th {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--terra);
+      text-align: left;
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid rgba(196,105,74,0.3);
+    }
+    .planning-card tbody td {
+      padding: 0.7rem 0.75rem;
+      font-size: 0.85rem;
+      border-bottom: 1px solid rgba(26,18,8,0.06);
+      color: var(--ink-soft);
+      white-space: nowrap;
+    }
+    .planning-card tbody td:first-child { color: var(--ink-muted); white-space: normal; }
+    .planning-card tbody td.empty { color: var(--ink-faint); }
+
+    /* Tarifs grid */
+    .tarifs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .tarif-card {
+      background: var(--cream);
+      border: 1px solid rgba(26,18,8,0.07);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: 0 1px 8px rgba(26,18,8,0.04);
+    }
+
+    .tarif-location-tag {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--terra);
+      margin-bottom: 0.4rem;
+    }
+    .tarif-location-name {
+      font-family: var(--font-serif);
+      font-size: 1.65rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--ink);
+      line-height: 1.15;
+      margin-bottom: 0.3rem;
+    }
+    .tarif-address {
+      font-size: 0.8rem;
+      color: var(--ink-faint);
+      margin-bottom: 1.75rem;
+      line-height: 1.5;
+    }
+
+    .tarif-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid rgba(26,18,8,0.06);
+    }
+    .tarif-row:last-child { border-bottom: none; }
+    .tarif-row-label { font-size: 0.875rem; color: var(--ink-muted); }
+    .tarif-row-price {
+      font-family: var(--font-serif);
+      font-size: 1.65rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--ink);
+    }
+    .tarif-row-period {
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      font-weight: 400;
+      color: var(--ink-faint);
+      margin-left: 0.2rem;
+    }
+
+    .tarif-discounts {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      padding: 1.75rem 2rem;
+      background: var(--terra-pale);
+      border: 1px solid rgba(196,105,74,0.25);
+      border-radius: var(--radius);
+      align-items: center;
+      justify-content: space-between;
+    }
+    .tarif-discount-title {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--terra-dark);
+    }
+    .tarif-discount-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+    .tarif-discount-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.875rem;
+      color: var(--ink-soft);
+    }
+    .tarif-discount-badge {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 600;
+      font-style: italic;
+      color: var(--terra);
+    }
+
+    .tarif-note {
+      margin-top: 2rem;
+      padding: 1.25rem 1.75rem;
+      background: var(--cream);
+      border-left: 3px solid var(--terra);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-size: 0.875rem;
+      color: var(--ink-muted);
+      line-height: 1.7;
+      box-shadow: 0 1px 8px rgba(26,18,8,0.04);
+    }
+    .tarif-note strong { color: var(--ink); }
+
+    /* ─── À LA CARTE ────────────────────────────────────────────── */
+    #a-la-carte { background: var(--cream); }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .service-card {
+      background: var(--cream-dark);
+      border: 1px solid rgba(26,18,8,0.07);
+      border-radius: var(--radius);
+      padding: 2.25rem 2rem 2.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: box-shadow 0.35s, transform 0.35s cubic-bezier(0.22,1,0.36,1);
+    }
+    .service-card:hover {
+      box-shadow: 0 6px 28px rgba(26,18,8,0.1);
+      transform: translateY(-2px);
+    }
+
+    .service-num {
+      font-family: var(--font-serif);
+      font-size: 4.5rem;
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(196,105,74,0.25);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .service-name {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--ink);
+      line-height: 1.15;
+    }
+
+    .service-desc {
+      color: var(--ink-muted);
+      font-size: 0.875rem;
+      line-height: 1.8;
+      flex: 1;
+    }
+
+    .service-price-list { margin-top: auto; }
+    .service-price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.6rem 0;
+      border-top: 1px solid rgba(26,18,8,0.07);
+    }
+    .service-price-label { font-size: 0.8rem; color: var(--ink-faint); }
+    .service-price-val {
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--ink);
+    }
+
+    .service-avail {
+      margin-top: 0.5rem;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+
+    @media (max-width: 860px) { .services-grid { grid-template-columns: 1fr; } }
+    @media (min-width: 861px) and (max-width: 1100px) {
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .service-card:last-child { grid-column: 1 / -1; max-width: 50%; }
+    }
+
+    /* Contact form in à la carte */
+    .service-form-wrap {
+      margin-top: 4.5rem;
+      max-width: 560px;
+    }
+    .service-form-title {
+      font-family: var(--font-serif);
+      font-size: 2.25rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+    .service-form-sub {
+      font-size: 0.875rem;
+      color: var(--ink-faint);
+      margin-bottom: 2rem;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .form-field { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+    }
+    .form-input {
+      background: var(--cream);
+      border: 1px solid rgba(26,18,8,0.18);
+      color: var(--ink);
+      padding: 0.75rem 1rem;
+      font: inherit;
+      font-size: 0.9rem;
+      width: 100%;
+      border-radius: var(--radius-sm);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: var(--terra);
+      box-shadow: 0 0 0 3px rgba(196,105,74,0.12);
+    }
+    .form-input::placeholder { color: var(--ink-faint); }
+    @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+
+    /* ─── INSCRIPTIONS ──────────────────────────────────────────── */
+    #inscriptions { background: var(--cream-dark); }
+
+    .inscriptions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .inscription-card {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 2rem 2rem 2.25rem;
+      background: var(--cream);
+      border: 1px solid rgba(26,18,8,0.07);
+      border-radius: var(--radius);
+      transition: box-shadow 0.3s, transform 0.3s;
+      box-shadow: 0 1px 8px rgba(26,18,8,0.04);
+    }
+    .inscription-card:hover {
+      box-shadow: 0 6px 24px rgba(26,18,8,0.1);
+      transform: translateY(-2px);
+    }
+
+    .inscription-icon {
+      width: 3rem;
+      height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--terra-pale);
+      border-radius: 50%;
+    }
+    .inscription-icon svg { color: var(--terra); }
+
+    .inscription-title {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--ink);
+    }
+    .inscription-desc {
+      font-size: 0.875rem;
+      color: var(--ink-muted);
+      line-height: 1.7;
+      flex: 1;
+    }
+    .inscription-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--terra);
+      margin-top: auto;
+      transition: gap 0.2s;
+    }
+    .inscription-link:hover { gap: 0.75rem; color: var(--terra-dark); }
+
+    /* ─── CONTACT ───────────────────────────────────────────────── */
+    #contact {
+      background: var(--ink);
+      color: #fff;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .contact-headline {
+      font-family: var(--font-serif);
+      font-size: clamp(3.5rem, 7vw, 6rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 0.95;
+      letter-spacing: -0.01em;
+      margin-bottom: 2.5rem;
+      color: #fff;
+    }
+    .contact-headline em {
+      color: var(--terra);
+      font-style: normal;
+    }
+
+    .contact-info-block {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .contact-info-tag {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 0.4rem;
+    }
+    .contact-info-value {
+      color: rgba(255,255,255,0.75);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+    .contact-info-value a {
+      color: rgba(255,255,255,0.9);
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .contact-info-value a:hover { color: var(--terra-pale); border-color: var(--terra-pale); }
+
+    .contact-social {
+      display: flex;
+      gap: 1rem;
+      margin-top: 3rem;
+      flex-wrap: wrap;
+    }
+    .contact-social-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.7rem 1.25rem;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.7);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border-radius: var(--radius-sm);
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .contact-social-btn:hover {
+      border-color: rgba(255,255,255,0.55);
+      color: #fff;
+      background: rgba(255,255,255,0.06);
+    }
+
+    .contact-map-note {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .contact-location-card {
+      padding: 1.75rem 2rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius);
+    }
+    .contact-location-name {
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      font-weight: 400;
+      font-style: italic;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 0.5rem;
+    }
+    .contact-location-addr {
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.65;
+    }
+
+    .contact-inscriptions-note {
+      padding: 1.75rem 2rem;
+      background: rgba(196,105,74,0.12);
+      border: 1px solid rgba(196,105,74,0.25);
+      border-radius: var(--radius);
+    }
+
+    .btn-ghost-warm {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      border: 1.5px solid rgba(255,255,255,0.3);
+      color: rgba(255,255,255,0.8);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border-radius: var(--radius-sm);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-ghost-warm:hover { border-color: rgba(255,255,255,0.6); color: #fff; }
+
+    @media (max-width: 768px) {
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    }
+
+    /* ─── FOOTER ────────────────────────────────────────────────── */
+    footer {
+      background: var(--ink-soft);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 2rem clamp(1.25rem, 5vw, 4rem);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .footer-logo {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 400;
+      font-style: italic;
+      color: rgba(255,255,255,0.5);
+    }
+    .footer-logo em { color: var(--terra); font-style: normal; }
+    .footer-copy {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      color: rgba(255,255,255,0.3);
+    }
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 1.75rem;
+    }
+    .footer-links a {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: rgba(255,255,255,0.7); }
+
+    /* ─── Back to top ───────────────────────────────────────────── */
+    .back-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 50;
+      width: 2.75rem;
+      height: 2.75rem;
+      background: var(--terra);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.3s, transform 0.3s, background 0.2s;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(196,105,74,0.35);
+    }
+    .back-top.visible { opacity: 1; transform: translateY(0); }
+    .back-top:hover { background: var(--terra-dark); }
+
+    /* ─── Enso circle decoration ────────────────────────────────── */
+    .enso-bg {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.04;
+      right: -5%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: min(50vw, 500px);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Particles canvas (ink dust + petal-like particles) -->
+  <canvas id="particles" aria-hidden="true"></canvas>
+
+  <!-- ── NAV ──────────────────────────────────────────────────── -->
+  <header class="nav" id="main-nav" role="banner">
+    <a href="#accueil" class="nav-logo" aria-label="Fan Yao – accueil">
+      Fan&nbsp;<em>Yao</em>
+    </a>
+
+    <nav aria-label="Navigation principale">
+      <ul class="nav-links">
+        <li><a href="#accueil">Accueil</a></li>
+        <li><a href="#professeurs">Professeurs</a></li>
+        <li><a href="#horaires-tarifs">Tarifs</a></li>
+        <li><a href="#medias">Médias</a></li>
+        <li><a href="#inscriptions">Inscriptions</a></li>
+        <li><a href="#a-la-carte">À la carte</a></li>
+        <li><a href="#contact" class="nav-cta">Nous contacter</a></li>
+      </ul>
+    </nav>
+
+    <button class="nav-burger" id="burger-btn" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-nav">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- Mobile nav -->
+  <nav class="nav-mobile" id="mobile-nav" aria-label="Menu mobile" hidden>
+    <ul>
+      <li><a href="#accueil">Accueil</a></li>
+      <li><a href="#professeurs">Professeurs</a></li>
+      <li><a href="#horaires-tarifs">Tarifs</a></li>
+      <li><a href="#medias">Médias</a></li>
+      <li><a href="#inscriptions">Inscriptions</a></li>
+      <li><a href="#a-la-carte">À la carte</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <!-- ── HERO ─────────────────────────────────────────────────── -->
+    <section id="accueil" aria-labelledby="hero-heading">
+
+      <!-- SVG brush strokes (décoration encre) -->
+      <svg class="brush-stroke brush-stroke-1" viewBox="0 0 200 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M10 60 Q 40 10, 80 30 Q 120 50, 160 20 Q 185 8, 195 15" stroke="white" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.9"/>
+        <path d="M8 62 Q 38 12, 78 32 Q 118 52, 158 22" stroke="white" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.5"/>
+      </svg>
+      <svg class="brush-stroke brush-stroke-2" viewBox="0 0 150 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M5 45 Q 30 15, 60 25 Q 90 38, 130 10 Q 140 5, 145 8" stroke="white" stroke-width="6" stroke-linecap="round" fill="none"/>
+      </svg>
+
+      <div class="hero-bg" role="img" aria-label="Cours de kung-fu wushu à Bordeaux"></div>
+      <div class="hero-overlay"></div>
+
+      <!-- ── Wushu silhouettes animated hero layer ─────────────── -->
+      <!-- Inserted between overlays so bottom gradient dims lower figures for depth -->
+      <div class="hero-silhouettes" aria-hidden="true">
+
+        <!-- Figure 1 : Saut / coup de pied aérien -->
+        <div class="sil-outer sil-jump-outer" id="sil-jump">
+          <div class="sil-inner sil-jump-inner">
+            <svg class="sil-svg" viewBox="0 0 299 349" xmlns="http://www.w3.org/2000/svg">
+              <path d="M 41,8 Q 33,33 29.5,55.5 Q 26,78 21.5,84.0 Q 17,90 18.0,96.5 Q 19,103 17.0,107.5 Q 15,112 19.5,126.0 Q 24,140 33.5,153.0 Q 43,166 35.0,178.5 Q 27,191 29.5,202.0 Q 32,213 37.0,217.5 Q 42,222 52.0,222.0 Q 62,222 67.0,215.5 Q 72,209 76.5,197.0 Q 81,185 91.5,184.5 Q 102,184 105.5,196.5 Q 109,209 120.0,233.5 Q 131,258 132.5,282.0 Q 134,306 136.5,315.0 Q 139,324 143.5,328.5 Q 148,333 153.5,333.5 Q 159,334 161.0,331.5 Q 163,329 163.0,321.0 Q 163,313 159.0,301.0 Q 155,289 155.0,280.5 Q 155,272 149.0,261.0 Q 143,250 143.0,236.5 Q 143,223 145.0,216.0 Q 147,209 145.5,198.5 Q 144,188 147.5,178.5 Q 151,169 172.5,164.5 Q 194,160 196.0,162.0 Q 198,164 196.5,181.0 Q 195,198 197.0,202.5 Q 199,207 200.0,229.5 Q 201,252 194.5,259.5 Q 188,267 191.5,277.0 Q 195,287 194.0,297.5 Q 193,308 196.5,312.5 Q 200,317 205.5,318.5 Q 211,320 213.5,317.0 Q 216,314 218.0,304.0 Q 220,294 217.5,283.0 Q 215,272 216.0,260.5 Q 217,249 223.0,223.5 Q 229,198 232.0,167.5 Q 235,137 240.5,134.0 Q 246,131 257.0,132.0 Q 268,133 271.5,128.0 Q 275,123 273.5,121.5 Q 272,120 278.0,116.5 Q 284,113 275.5,114.5 Q 267,116 265.5,114.5 Q 264,113 265.5,110.0 Q 267,107 257.0,114.0 Q 247,121 238.5,122.5 Q 230,124 220.0,115.5 Q 210,107 179.0,97.5 Q 148,88 141.0,75.0 Q 134,62 128.5,57.0 Q 123,52 116.5,52.0 Q 110,52 104.5,54.5 Q 99,57 84.5,75.5 Q 70,94 60.0,98.5 Q 50,103 48.5,101.5 Q 47,100 47.0,89.0 Q 47,78 50.5,59.5 Q 54,41 54.5,24.5 Q 55,8 41,8 Z" fill="currentColor"/>
+            </svg>
+          </div>
+          <!-- Ink splash (impact éclat encre) -->
+          <svg class="sil-splash" viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg" fill="none">
+            <line class="splash-ray" x1="50" y1="20" x2="50" y2="2"  stroke-width="2"/>
+            <line class="splash-ray" x1="50" y1="20" x2="72" y2="5"  stroke-width="1.5"/>
+            <line class="splash-ray" x1="50" y1="20" x2="88" y2="20" stroke-width="1.2"/>
+            <line class="splash-ray" x1="50" y1="20" x2="28" y2="5"  stroke-width="1.5"/>
+            <line class="splash-ray" x1="50" y1="20" x2="12" y2="20" stroke-width="1.2"/>
+          </svg>
+        </div>
+
+        <!-- Figure 2 : Fente au bâton / sabre -->
+        <div class="sil-outer sil-lunge-outer" id="sil-lunge">
+          <div class="sil-inner sil-lunge-inner">
+            <svg class="sil-svg" viewBox="0 0 303 353" xmlns="http://www.w3.org/2000/svg">
+              <path d="M 32,15 Q 19,35 19.5,52.0 Q 20,69 17.5,77.5 Q 15,86 20.5,87.5 Q 26,89 27.5,79.0 Q 29,69 30.5,67.5 Q 32,66 46.0,94.5 Q 60,123 67.0,131.0 Q 74,139 68.5,161.5 Q 63,184 74.5,196.0 Q 86,208 88.0,214.0 Q 90,220 88.5,223.0 Q 87,226 78.5,226.5 Q 70,227 62.0,232.0 Q 54,237 53.5,247.0 Q 53,257 60.0,289.0 Q 67,321 67.0,334.0 Q 67,347 78.0,347.0 Q 89,347 92.5,324.0 Q 96,301 93.5,286.0 Q 91,271 92.5,269.5 Q 94,268 108.5,274.0 Q 123,280 144.0,280.5 Q 165,281 180.5,289.0 Q 196,297 213.0,301.0 Q 230,305 246.0,314.0 Q 262,323 252.0,326.5 Q 242,330 241.0,332.5 Q 240,335 262.5,337.0 Q 285,339 286.5,335.5 Q 288,332 270.0,312.0 Q 252,292 237.5,286.5 Q 223,281 206.0,266.0 Q 189,251 186.0,240.5 Q 183,230 171.0,216.0 Q 159,202 160.0,197.5 Q 161,193 166.0,190.0 Q 171,187 179.0,187.0 Q 187,187 189.5,190.0 Q 192,193 200.0,193.5 Q 208,194 226.0,214.0 Q 244,234 234.0,247.0 Q 224,260 230.0,256.0 Q 236,252 243.5,255.5 Q 251,259 254.5,250.5 Q 258,242 258.0,234.0 Q 258,226 232.5,196.5 Q 207,167 205.5,163.0 Q 204,159 191.5,155.0 Q 179,151 151.5,135.5 Q 124,120 125.0,99.0 Q 126,78 114.0,61.5 Q 102,45 95.0,46.0 Q 88,47 78.0,58.5 Q 68,70 70.0,77.0 Q 72,84 75.0,82.0 Q 78,80 80.0,81.5 Q 82,83 82.5,91.0 Q 83,99 86.5,103.5 Q 90,108 88.0,109.5 Q 86,111 80.5,106.5 Q 75,102 56.5,75.0 Q 38,48 32,15 Z" fill="currentColor"/>
+            </svg>
+          </div>
+          <!-- Diagonal staff trail -->
+          <svg class="blade-trail blade-lunge-trail" viewBox="0 0 160 200" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 130 5 Q 95 60 70 100 Q 45 140 30 195"/>
+          </svg>
+        </div>
+
+        <!-- Figure 3 : Équilibre au sabre, jambe levée -->
+        <div class="sil-outer sil-balance-outer" id="sil-balance">
+          <div class="sil-inner sil-balance-inner">
+            <svg class="sil-svg" viewBox="0 0 468 553" xmlns="http://www.w3.org/2000/svg">
+              <path d="M 17,164 Q 18,169 39.5,177.0 Q 61,185 137.0,182.0 Q 213,179 215.5,183.5 Q 218,188 229.0,186.5 Q 240,185 242.0,191.0 Q 244,197 238.5,213.5 Q 233,230 241.5,240.5 Q 250,251 250.0,244.0 Q 250,237 252.0,235.0 Q 254,233 258.0,235.0 Q 262,237 269.0,224.5 Q 276,212 269.0,199.0 Q 262,186 263.5,184.0 Q 265,182 304.5,197.0 Q 344,212 351.0,228.0 Q 358,244 356.5,251.5 Q 355,259 334.0,259.5 Q 313,260 310.0,279.5 Q 307,299 312.5,313.5 Q 318,328 320.0,355.5 Q 322,383 328.5,386.5 Q 335,390 335.5,405.5 Q 336,421 339.0,425.0 Q 342,429 346.5,424.5 Q 351,420 352.5,406.5 Q 354,393 359.5,386.0 Q 365,379 361.5,354.0 Q 358,329 360.5,325.5 Q 363,322 367.0,324.0 Q 371,326 371.5,397.0 Q 372,468 368.5,485.5 Q 365,503 369.5,510.5 Q 374,518 373.0,525.5 Q 372,533 384.0,534.5 Q 396,536 397.5,530.5 Q 399,525 396.5,520.0 Q 394,515 399.5,510.5 Q 405,506 402.0,494.5 Q 399,483 409.0,448.5 Q 419,414 425.0,364.5 Q 431,315 428.5,300.0 Q 426,285 436.5,278.0 Q 447,271 435.5,224.0 Q 424,177 429.5,167.0 Q 435,157 434.0,149.5 Q 433,142 441.5,110.5 Q 450,79 451.5,58.0 Q 453,37 451.0,34.0 Q 449,31 434.0,23.5 Q 419,16 414.5,16.5 Q 410,17 426.0,31.0 Q 442,45 431.5,82.0 Q 421,119 406.5,137.5 Q 392,156 390.0,150.5 Q 388,145 390.5,133.5 Q 393,122 386.5,114.0 Q 380,106 368.0,108.0 Q 356,110 353.0,114.0 Q 350,118 355.0,141.5 Q 360,165 357.5,168.0 Q 355,171 327.0,172.5 Q 299,174 273.0,167.5 Q 247,161 234.5,163.0 Q 222,165 218.0,169.0 Q 214,173 155.0,173.0 Q 96,173 17,164 Z" fill="currentColor"/>
+            </svg>
+          </div>
+          <!-- Horizontal sword trail -->
+          <svg class="blade-trail blade-balance" viewBox="0 0 380 50" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 5 25 Q 80 14 190 25 Q 300 36 375 22"/>
+          </svg>
+        </div>
+
+      </div><!-- /.hero-silhouettes -->
+
+      <div class="hero-overlay-bottom"></div>
+
+      <div class="hero-content">
+        <p class="hero-eyebrow">Kung-fu Wushu · Bordeaux</p>
+        <h1 class="hero-title" id="hero-heading">
+          <span class="hero-word">Fan</span>
+          <span class="hero-word">Yao</span>
+        </h1>
+        <p class="hero-subtitle">Club de wushu kung-fu — Bordeaux &amp; Talence</p>
+        <div class="hero-cta-row">
+          <a href="#horaires-tarifs" class="btn-warm">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Tarifs &amp; inscriptions
+          </a>
+          <a href="#a-propos" class="btn-ghost">En savoir plus</a>
+        </div>
+      </div>
+
+      <div class="hero-scroll" aria-hidden="true">
+        <span class="hero-scroll-label">Découvrir</span>
+        <div class="hero-scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- ── À PROPOS ──────────────────────────────────────────────── -->
+    <section id="a-propos" aria-labelledby="about-heading">
+      <div class="container">
+        <div class="section-header reveal">
+          <p class="eyebrow">À propos</p>
+          <h2 class="section-title" id="about-heading">L'art du mouvement</h2>
+          <div class="section-ornament">
+            <div class="section-ornament-line"></div>
+            <div class="section-ornament-dot"></div>
+          </div>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-body reveal reveal-d1">
+            <p class="about-pull">
+              "Explorer les limites du corps et de l'esprit à travers la tradition chinoise."
+            </p>
+            <p>Fan Yao enseigne le côté technique du kung-fu wushu : styles à mains nues, armes courtes et armes longues. Les routines (taolus) mêlent coups de pied, techniques de bras, postures, enroulements de bras et sauts acrobatiques.</p>
+            <p>Le club propose des cours bébé, enfant et adulte, ainsi que des ateliers de découverte sur les styles de démonstration tout au long de l'année.</p>
+            <p>La pratique développe des capacités physiques — explosivité, puissance, souplesse, hauteur de saut, coordination, endurance — mais aussi mentales : concentration, mémorisation et découverte de soi. S'inspirant de la philosophie Tao, Fan Yao adopte une approche sportive fondée sur le dépassement de soi et la confiance en soi.</p>
+            <div class="about-pillars">
+              <span class="about-pillar">Explosivité</span>
+              <span class="about-pillar">Coordination</span>
+              <span class="about-pillar">Souplesse</span>
+              <span class="about-pillar">Endurance</span>
+              <span class="about-pillar">Concentration</span>
+              <span class="about-pillar">Philosophie Tao</span>
+              <span class="about-pillar">Bébé · Enfant · Adulte</span>
+            </div>
+          </div>
+
+          <div class="about-image-wrap reveal reveal-d2">
+            <img
+              src="images/aaea9c_3ecfa54ae00d4d86806b3218e518d584.jpg"
+              alt="Cours de kung-fu wushu Fan Yao"
+              loading="lazy"
+            />
+            <p class="about-image-caption">Fan Yao — Bordeaux</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── COMPETITION STRIP ──────────────────────────────────────── -->
+    <div class="compe-strip">
+      <div class="container">
+        <div class="compe-inner">
+          <div class="compe-stat reveal">
+            <div class="compe-stat-num">20<em>13</em></div>
+            <div class="compe-stat-label">Équipe de France — Juliette</div>
+          </div>
+          <div class="compe-stat reveal reveal-d1">
+            <div class="compe-stat-num">3<em>×</em></div>
+            <div class="compe-stat-label">Championne d'Europe</div>
+          </div>
+          <div class="compe-stat reveal reveal-d2">
+            <div class="compe-stat-num">Top<em>10</em></div>
+            <div class="compe-stat-label">Mondial</div>
+          </div>
+          <p class="compe-text reveal reveal-d3">
+            Un groupe compétition enfants et adultes, engagé aux championnats de ligue et de France. Certains membres ont représenté la France à l'international. Les candidats à la ceinture noire sont présentés à la ligue Nouvelle-Aquitaine dès 16 ans.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PROFESSEURS ────────────────────────────────────────────── -->
+    <section id="professeurs" aria-labelledby="prof-heading">
+      <div class="container">
+        <div class="section-header reveal">
+          <p class="eyebrow">Enseignants</p>
+          <h2 class="section-title" id="prof-heading">Nos professeurs</h2>
+          <div class="section-ornament">
+            <div class="section-ornament-line"></div>
+            <div class="section-ornament-dot"></div>
+          </div>
+        </div>
+
+        <div class="professors-wrap">
+          <!-- Benoît Denolle -->
+          <article class="professor-card reveal reveal-d1">
+            <div class="professor-photo">
+              <img
+                src="images/aaea9c_009c876448354e369e53fee0ab4d1d51.jpg"
+                alt="Portrait de Benoît Denolle, professeur de kung-fu wushu"
+                loading="lazy"
+              />
+              <div class="professor-photo-overlay"></div>
+            </div>
+            <div class="professor-info">
+              <p class="professor-title">CQP MAM · 3ème Duan</p>
+              <h3 class="professor-name">Benoît Denolle</h3>
+              <p class="professor-bio">Membre de l'équipe de France de 2017 à 2022 et médaillé international. Spécialiste de l'épée, de la lance et des styles du Nord et du Sud de la Chine.</p>
+              <div class="professor-tags">
+                <span class="professor-tag">Équipe de France 2017–2022</span>
+                <span class="professor-tag">Médaillé international</span>
+                <span class="professor-tag">Épée · Lance</span>
+                <span class="professor-tag">Styles Nord &amp; Sud</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Juliette Vauchez -->
+          <article class="professor-card reveal reveal-d2">
+            <div class="professor-photo">
+              <img
+                src="images/aaea9c_c47eb9719a2d40f686820db546c630a1.jpg"
+                alt="Portrait de Juliette Vauchez, professeure de kung-fu wushu"
+                loading="lazy"
+              />
+              <div class="professor-photo-overlay"></div>
+            </div>
+            <div class="professor-info">
+              <p class="professor-title">CQP MAM · 3ème Duan</p>
+              <h3 class="professor-name">Juliette Vauchez</h3>
+              <p class="professor-bio">Membre de l'équipe de France depuis 2013, triple championne d'Europe et top 10 mondial. Spécialiste du style du Nord — mains nues, épée et lance.</p>
+              <div class="professor-tags">
+                <span class="professor-tag">Équipe de France depuis 2013</span>
+                <span class="professor-tag">Triple championne d'Europe</span>
+                <span class="professor-tag">Top 10 mondial</span>
+                <span class="professor-tag">Style du Nord</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── MÉDIAS ─────────────────────────────────────────────────── -->
+    <section id="medias" aria-labelledby="gallery-heading">
+      <div class="container">
+        <div class="section-header reveal">
+          <p class="eyebrow">Photos &amp; Vidéos</p>
+          <h2 class="section-title" id="gallery-heading">Médias</h2>
+          <div class="section-ornament">
+            <div class="section-ornament-line"></div>
+            <div class="section-ornament-dot"></div>
+          </div>
+        </div>
+
+        <div class="gallery-grid" role="list" aria-label="Galerie photos Fan Yao">
+          <a class="gallery-item reveal" href="images/aaea9c_3ecfa54ae00d4d86806b3218e518d584.jpg" role="listitem" target="_blank" rel="noopener">
+            <img src="images/aaea9c_3ecfa54ae00d4d86806b3218e518d584.jpg" alt="Cours de kung-fu wushu Fan Yao" loading="lazy" />
+          </a>
+          <a class="gallery-item reveal reveal-d1" href="images/aaea9c_a53f1f9eba8d48d9bcb5cec7e5c9b3b1.jpg" role="listitem" target="_blank" rel="noopener">
+            <img src="images/aaea9c_a53f1f9eba8d48d9bcb5cec7e5c9b3b1.jpg" alt="Démonstration wushu Fan Yao" loading="lazy" />
+          </a>
+          <a class="gallery-item reveal reveal-d2" href="images/aaea9c_42807a02d5364262b198f06245cae088.jpg" role="listitem" target="_blank" rel="noopener">
+            <img src="images/aaea9c_42807a02d5364262b198f06245cae088.jpg" alt="Compétition kung-fu wushu" loading="lazy" />
+          </a>
+          <a class="gallery-item reveal" href="images/aaea9c_cd69ca676a0d4ba8a296c87625638d3d.jpg" role="listitem" target="_blank" rel="noopener">
+            <img src="images/aaea9c_cd69ca676a0d4ba8a296c87625638d3d.jpg" alt="Entraînement wushu Bordeaux" loading="lazy" />
+          </a>
+          <a class="gallery-item reveal reveal-d1" href="images/aaea9c_7740c3ca782a4e92a09c53dfdd12e820.jpg" role="listitem" target="_blank" rel="noopener">
+            <img src="images/aaea9c_7740c3ca782a4e92a09c53dfdd12e820.jpg" alt="Taolu wushu Fan Yao" loading="lazy" />
+          </a>
+          <a class="gallery-item reveal reveal-d2" href="images/aaea9c_de1798d825b7490f866643ca1a858a79.jpg" role="listitem" target="_blank" rel="noopener">
+            <img src="images/aaea9c_de1798d825b7490f866643ca1a858a79.jpg" alt="Gala kung-fu Fan Yao" loading="lazy" />
+          </a>
+          <a class="gallery-item reveal" href="images/aaea9c_65ffcb6df8f347378e939a51bc1478d0.jpg" role="listitem" target="_blank" rel="noopener">
+            <img src="images/aaea9c_65ffcb6df8f347378e939a51bc1478d0.jpg" alt="Élèves wushu Bordeaux" loading="lazy" />
+          </a>
+          <a class="gallery-item reveal reveal-d1" href="images/aaea9c_4fc5250b8d9e4d898a374faf6033189b.jpg" role="listitem" target="_blank" rel="noopener">
+            <img src="images/aaea9c_4fc5250b8d9e4d898a374faf6033189b.jpg" alt="Kung-fu arme Fan Yao" loading="lazy" />
+          </a>
+          <a class="gallery-item reveal reveal-d2" href="images/aaea9c_3174184923b6493480eadd2ff3ffc936.jpg" role="listitem" target="_blank" rel="noopener">
+            <img src="images/aaea9c_3174184923b6493480eadd2ff3ffc936.jpg" alt="Entraînement Fan Yao" loading="lazy" />
+          </a>
+          <a class="gallery-item reveal" href="images/aaea9c_e7078ec2e98c4c1d9c20f1be367eb2b9.jpg" role="listitem" target="_blank" rel="noopener">
+            <img src="images/aaea9c_e7078ec2e98c4c1d9c20f1be367eb2b9.jpg" alt="Wushu compétition équipe" loading="lazy" />
+          </a>
+          <a class="gallery-item reveal reveal-d1" href="images/aaea9c_6fd3889a05de4eaab22f04629e7f877d.jpg" role="listitem" target="_blank" rel="noopener">
+            <img src="images/aaea9c_6fd3889a05de4eaab22f04629e7f877d.jpg" alt="Fan Yao démonstration publique" loading="lazy" />
+          </a>
+        </div>
+
+        <div class="gallery-social reveal">
+          <p class="gallery-social-label">Suivez-nous sur</p>
+          <a class="gallery-social-link" href="https://www.instagram.com/fanyao.bordeaux/" target="_blank" rel="noopener noreferrer" aria-label="Instagram Fan Yao">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            @fanyao.bordeaux
+          </a>
+          <a class="gallery-social-link" href="https://www.facebook.com/FAN-YAO-103989061444879" target="_blank" rel="noopener noreferrer" aria-label="Facebook Fan Yao">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            Fan Yao
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── IMAGE DIVIDER ──────────────────────────────────────────── -->
+    <div class="img-divider">
+      <img
+        src="images/aaea9c_4c41b8e23e4443dba2c421d0a36ed34e.png"
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+      />
+      <div class="img-divider-overlay"></div>
+      <div class="img-divider-quote">
+        <blockquote>
+          Le corps comme instrument, l'esprit comme guide
+        </blockquote>
+      </div>
+    </div>
+
+    <!-- ── HORAIRES & TARIFS ──────────────────────────────────────── -->
+    <section id="horaires-tarifs" aria-labelledby="tarifs-heading">
+      <div class="container">
+        <div class="section-header reveal">
+          <p class="eyebrow">Frais d'inscription</p>
+          <h2 class="section-title" id="tarifs-heading">Horaires &amp; Tarifs</h2>
+          <div class="section-ornament">
+            <div class="section-ornament-line"></div>
+            <div class="section-ornament-dot"></div>
+          </div>
+          <p class="reveal" style="color:var(--ink-muted);font-size:0.9rem;max-width:520px;margin-top:1rem;">
+            Les inscriptions sont ouvertes jusqu'aux vacances de la Toussaint. Les cours reprennent en septembre.
+          </p>
+        </div>
+
+        <div class="planning">
+          <div class="planning-card reveal reveal-d1">
+            <div class="planning-location-tag">Planning · Bordeaux Bastide</div>
+            <div class="planning-title">Petit Institut de Chine</div>
+            <div class="planning-addr">14 cours Le Rouzic, 33000 Bordeaux Bastide</div>
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Cours</th>
+                  <th scope="col">Mardi</th>
+                  <th scope="col">Mercredi</th>
+                  <th scope="col">Jeudi</th>
+                  <th scope="col">Vendredi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Compétition</td>
+                  <td class="empty">—</td>
+                  <td>14h00–16h00</td>
+                  <td class="empty">—</td>
+                  <td>20h00–21h30</td>
+                </tr>
+                <tr>
+                  <td>Enfants (CP/CE1)</td>
+                  <td>17h00–18h00</td>
+                  <td class="empty">—</td>
+                  <td class="empty">—</td>
+                  <td class="empty">—</td>
+                </tr>
+                <tr>
+                  <td>Enfants (CE2/3ème)</td>
+                  <td>18h00–19h00</td>
+                  <td class="empty">—</td>
+                  <td>18h00–19h00</td>
+                  <td class="empty">—</td>
+                </tr>
+                <tr>
+                  <td>Adultes (lycée et +)</td>
+                  <td>20h30–22h00</td>
+                  <td class="empty">—</td>
+                  <td>19h00–20h30</td>
+                  <td class="empty">—</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="planning-card reveal reveal-d2">
+            <div class="planning-location-tag">Planning · Talence</div>
+            <div class="planning-title">CREPS</div>
+            <div class="planning-addr">653 cours de la Libération, 33400 Talence</div>
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Cours</th>
+                  <th scope="col">Mercredi</th>
+                  <th scope="col">Vendredi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Enfants (6–14 ans)</td>
+                  <td>19h00–20h00</td>
+                  <td>18h00–19h00</td>
+                </tr>
+                <tr>
+                  <td>Adultes (extra)</td>
+                  <td>19h00–20h00</td>
+                  <td class="empty">—</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="tarifs-grid">
+          <!-- Bastide -->
+          <div class="tarif-card reveal reveal-d1">
+            <div class="tarif-location-tag">Bordeaux Bastide</div>
+            <div class="tarif-location-name">Petit Institut<br>de Chine</div>
+            <div class="tarif-address">14 cours Le Rouzic<br>33000 Bordeaux</div>
+            <div class="tarif-row">
+              <span class="tarif-row-label">Enfants CP–CE1</span>
+              <span class="tarif-row-price">260 €<span class="tarif-row-period">/ an</span></span>
+            </div>
+            <div class="tarif-row">
+              <span class="tarif-row-label">Enfants CE2–3ème</span>
+              <span class="tarif-row-price">320 €<span class="tarif-row-period">/ an</span></span>
+            </div>
+            <div class="tarif-row">
+              <span class="tarif-row-label">Adultes</span>
+              <span class="tarif-row-price">420 €</span>
+            </div>
+          </div>
+
+          <!-- CREPS -->
+          <div class="tarif-card reveal reveal-d2">
+            <div class="tarif-location-tag">Talence</div>
+            <div class="tarif-location-name">CREPS</div>
+            <div class="tarif-address">653 Cours de la Libération<br>33400 Talence</div>
+            <div class="tarif-row">
+              <span class="tarif-row-label">Enfants CP–3ème</span>
+              <span class="tarif-row-price">350 €<span class="tarif-row-period">/ an</span></span>
+            </div>
+            <div class="tarif-row">
+              <span class="tarif-row-label">Adulte extra</span>
+              <span class="tarif-row-price">250 €<span class="tarif-row-period">/ an</span></span>
+            </div>
+          </div>
+
+          <!-- Discounts -->
+          <div class="tarif-discounts reveal reveal-d3">
+            <div class="tarif-discount-title">Réductions disponibles</div>
+            <div class="tarif-discount-items">
+              <div class="tarif-discount-item">
+                <span class="tarif-discount-badge">−10%</span>
+                <span>Tarif famille</span>
+              </div>
+              <div class="tarif-discount-item">
+                <span class="tarif-discount-badge">−10%</span>
+                <span>Tarif étudiant</span>
+              </div>
+            </div>
+            <a href="#inscriptions" class="btn-warm">
+              Télécharger les dossiers
+            </a>
+          </div>
+        </div>
+
+        <div class="tarif-note reveal">
+          <strong>Inscriptions ouvertes</strong> — Les cours reprennent chaque année en septembre. Les dossiers d'inscription sont à télécharger dans la section Inscriptions ci-dessous. Pour toute question, contactez-nous par email ou par téléphone.
+        </div>
+      </div>
+    </section>
+
+    <!-- ── À LA CARTE ─────────────────────────────────────────────── -->
+    <section id="a-la-carte" aria-labelledby="carte-heading">
+      <div class="container" style="position:relative;">
+
+        <!-- Enso circle as background decoration -->
+        <svg class="enso-bg" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M 200 40
+            C 300 40, 370 110, 370 200
+            C 370 290, 300 360, 210 360
+            C 120 360, 50 295, 50 205
+            C 50 118, 115 52, 195 46
+            C 215 44, 220 44, 230 50
+            C 250 60, 240 80, 220 82
+            C 180 86, 150 100, 130 125"
+            stroke="var(--ink)" stroke-width="18" stroke-linecap="round" fill="none"/>
+        </svg>
+
+        <div class="section-header reveal">
+          <p class="eyebrow">Services</p>
+          <h2 class="section-title" id="carte-heading">À la carte</h2>
+          <div class="section-ornament">
+            <div class="section-ornament-line"></div>
+            <div class="section-ornament-dot"></div>
+          </div>
+          <p class="reveal" style="color:var(--ink-muted);font-size:0.9rem;max-width:520px;margin-top:1rem;">
+            Cours particuliers, stages en déplacement et événements sur mesure — Juliette et Benoît se déplacent en Nouvelle-Aquitaine et au-delà.
+          </p>
+        </div>
+
+        <div class="services-grid">
+          <!-- Cours particuliers -->
+          <article class="service-card reveal reveal-d1">
+            <div class="service-num" aria-hidden="true">01</div>
+            <h3 class="service-name">Cours particuliers</h3>
+            <p class="service-desc">Accompagnement personnalisé jusqu'à 3 personnes de niveau similaire. Format standard : 1 cours par semaine sur 4 séances, à Bordeaux. Disponibilités : mercredi matin, jeudi matin et dimanche.</p>
+            <div class="service-price-list">
+              <div class="service-price-row">
+                <span class="service-price-label">Adhérent</span>
+                <span class="service-price-val">100 € <span style="font-family:var(--font-sans);font-size:0.7rem;color:var(--ink-faint);font-style:normal;">/ 4 séances</span></span>
+              </div>
+              <div class="service-price-row">
+                <span class="service-price-label">Non-adhérent</span>
+                <span class="service-price-val">200 € <span style="font-family:var(--font-sans);font-size:0.7rem;color:var(--ink-faint);font-style:normal;">/ 4 séances</span></span>
+              </div>
+            </div>
+            <div class="service-avail">Mer. matin · Jeu. matin · Dimanche</div>
+          </article>
+
+          <!-- Stages -->
+          <article class="service-card reveal reveal-d2">
+            <div class="service-num" aria-hidden="true">02</div>
+            <h3 class="service-name">Stages</h3>
+            <p class="service-desc">Stages à Bordeaux ou en déplacement dans la région. Format standard : 2 séances le samedi + 1 séance le dimanche matin. Déplacements et hébergement pris en charge par l'organisateur.</p>
+            <div class="service-price-list">
+              <div class="service-price-row">
+                <span class="service-price-label">Intervenant individuel</span>
+                <span class="service-price-val">500 € <span style="font-family:var(--font-sans);font-size:0.7rem;color:var(--ink-faint);font-style:normal;">/ week-end</span></span>
+              </div>
+              <div class="service-price-row">
+                <span class="service-price-label">Duo Juliette + Benoît</span>
+                <span class="service-price-val">800 € <span style="font-family:var(--font-sans);font-size:0.7rem;color:var(--ink-faint);font-style:normal;">/ week-end</span></span>
+              </div>
+            </div>
+            <div class="service-avail">Bordeaux · Nouvelle-Aquitaine · France</div>
+          </article>
+
+          <!-- Événements -->
+          <article class="service-card reveal reveal-d3">
+            <div class="service-num" aria-hidden="true">03</div>
+            <h3 class="service-name">Événements</h3>
+            <p class="service-desc">Démonstrations sur mesure ou séances de découverte pour mariages, Nouvel An chinois, festivals, événements d'entreprise (team-building) et anniversaires. Tarif sur devis selon la nature et la durée de l'intervention.</p>
+            <div class="service-price-list">
+              <div class="service-price-row">
+                <span class="service-price-label">Tarif</span>
+                <span class="service-price-val" style="font-size:1.1rem;">Sur devis</span>
+              </div>
+            </div>
+            <div class="service-avail">Mariage · Fête · Entreprise · Festival</div>
+          </article>
+        </div>
+
+        <!-- Contact form -->
+        <div class="service-form-wrap reveal">
+          <h3 class="service-form-title">Demande d'informations</h3>
+          <p class="service-form-sub">Pour tout renseignement sur nos services à la carte, remplissez ce formulaire.</p>
+          <form action="mailto:fanyao.33.wushu@hotmail.com" method="get" enctype="text/plain" novalidate>
+            <div class="form-row">
+              <div class="form-field">
+                <label class="form-label" for="fname">Prénom</label>
+                <input class="form-input" type="text" id="fname" name="prenom" autocomplete="given-name" placeholder="Votre prénom" required />
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="lname">Nom</label>
+                <input class="form-input" type="text" id="lname" name="nom" autocomplete="family-name" placeholder="Votre nom" required />
+              </div>
+            </div>
+            <div class="form-field" style="margin-bottom:1.5rem;">
+              <label class="form-label" for="email">Email</label>
+              <input class="form-input" type="email" id="email" name="email" autocomplete="email" placeholder="votre@email.fr" required />
+            </div>
+            <button type="submit" class="btn-warm">Envoyer la demande</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── INSCRIPTIONS ───────────────────────────────────────────── -->
+    <section id="inscriptions" aria-labelledby="inscriptions-heading">
+      <div class="container">
+        <div class="section-header reveal">
+          <p class="eyebrow">Rejoindre le club</p>
+          <h2 class="section-title" id="inscriptions-heading">Inscriptions</h2>
+          <div class="section-ornament">
+            <div class="section-ornament-line"></div>
+            <div class="section-ornament-dot"></div>
+          </div>
+          <p class="reveal" style="color:var(--ink-muted);font-size:0.9rem;max-width:520px;margin-top:1rem;">
+            Téléchargez les dossiers correspondant à votre lieu de pratique et renvoyez-les complétés pour finaliser votre inscription.
+          </p>
+        </div>
+
+        <div class="inscriptions-grid">
+          <!-- Bastide -->
+          <div class="inscription-card reveal reveal-d1">
+            <div class="inscription-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <h3 class="inscription-title">Dossier Bastide</h3>
+            <p class="inscription-desc">Formulaire d'inscription pour le Petit Institut de Chine, 14 cours Le Rouzic, Bordeaux Bastide.</p>
+            <a class="inscription-link" href="https://www.fanyao.fr/_files/ugd/aaea9c_aa754ecbabb74103b0eb8a42604b2c8d.pdf" target="_blank" rel="noopener noreferrer">
+              Télécharger PDF
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+
+          <!-- CREPS -->
+          <div class="inscription-card reveal reveal-d2">
+            <div class="inscription-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <h3 class="inscription-title">Dossier CREPS</h3>
+            <p class="inscription-desc">Formulaire d'inscription pour le CREPS, 653 Cours de la Libération, Talence.</p>
+            <a class="inscription-link" href="https://www.fanyao.fr/_files/ugd/aaea9c_e3e4d36f95044d49a072b1e0490dc3ef.pdf" target="_blank" rel="noopener noreferrer">
+              Télécharger PDF
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+
+          <!-- Santé -->
+          <div class="inscription-card reveal reveal-d3">
+            <div class="inscription-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <h3 class="inscription-title">Formulaire santé</h3>
+            <p class="inscription-desc">Questionnaire médical à compléter et à joindre à votre dossier d'inscription.</p>
+            <a class="inscription-link" href="https://www.fanyao.fr/_files/ugd/aaea9c_eb9540552c974c4fab7c4db9e41b8406.pdf" target="_blank" rel="noopener noreferrer">
+              Télécharger PDF
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CONTACT ─────────────────────────────────────────────────── -->
+    <section id="contact" aria-labelledby="contact-heading">
+      <div class="container">
+        <div class="contact-grid">
+          <div>
+            <h2 class="contact-headline reveal" id="contact-heading">
+              Nous<br><em>contacter</em>
+            </h2>
+
+            <div class="contact-info-block">
+              <div class="contact-info-item reveal reveal-d1">
+                <div class="contact-info-tag">Téléphone</div>
+                <div class="contact-info-value">
+                  <a href="tel:+33762707414">07 62 70 74 14</a>
+                </div>
+              </div>
+
+              <div class="contact-info-item reveal reveal-d2">
+                <div class="contact-info-tag">Email</div>
+                <div class="contact-info-value">
+                  <a href="mailto:fanyao.33.wushu@hotmail.com">fanyao.33.wushu@hotmail.com</a>
+                </div>
+              </div>
+
+              <div class="contact-info-item reveal reveal-d3">
+                <div class="contact-info-tag">Horaires de réponse</div>
+                <div class="contact-info-value">
+                  Nous répondons dans les meilleurs délais.<br>
+                  Pour les inscriptions, pensez à télécharger les dossiers.
+                </div>
+              </div>
+            </div>
+
+            <div class="contact-social reveal reveal-d4">
+              <a class="contact-social-btn" href="https://www.instagram.com/fanyao.bordeaux/" target="_blank" rel="noopener noreferrer">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                Instagram
+              </a>
+              <a class="contact-social-btn" href="https://www.facebook.com/FAN-YAO-103989061444879" target="_blank" rel="noopener noreferrer">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                Facebook
+              </a>
+            </div>
+          </div>
+
+          <div class="contact-map-note reveal reveal-d1">
+            <div class="contact-location-card">
+              <div class="contact-location-name">Petit Institut de Chine</div>
+              <div class="contact-location-addr">
+                14 cours Le Rouzic<br>
+                33000 Bordeaux Bastide
+              </div>
+            </div>
+            <div class="contact-location-card">
+              <div class="contact-location-name">CREPS Talence</div>
+              <div class="contact-location-addr">
+                653 Cours de la Libération<br>
+                33400 Talence
+              </div>
+            </div>
+            <div class="contact-inscriptions-note">
+              <p class="contact-info-tag" style="margin-bottom:0.75rem;">Inscriptions</p>
+              <p style="color:rgba(255,255,255,0.55);font-size:0.875rem;line-height:1.7;margin-bottom:1.5rem;">
+                Les inscriptions sont ouvertes jusqu'aux vacances de la Toussaint. Téléchargez les dossiers dans la section Inscriptions et renvoyez-les à l'adresse email ci-dessus.
+              </p>
+              <a href="#inscriptions" class="btn-ghost-warm">Voir les dossiers</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ── FOOTER ─────────────────────────────────────────────────── -->
+  <footer>
+    <div class="footer-logo">Fan <em>Yao</em></div>
+    <p class="footer-copy">© 2026 Fan Yao — Kung-fu Wushu Bordeaux</p>
+    <nav class="footer-links" aria-label="Liens footer">
+      <a href="mailto:fanyao.33.wushu@hotmail.com">Email</a>
+      <a href="https://www.instagram.com/fanyao.bordeaux/" target="_blank" rel="noopener noreferrer">Instagram</a>
+      <a href="https://www.facebook.com/FAN-YAO-103989061444879" target="_blank" rel="noopener noreferrer">Facebook</a>
+    </nav>
+  </footer>
+
+  <!-- Back to top -->
+  <button class="back-top" id="back-top" aria-label="Retour en haut de page">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
+
+  <script>
+    /* ── Particles — ink dust + petal shapes wushu-themed ──────── */
+    (function() {
+      // Respect prefers-reduced-motion
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const canvas = document.getElementById('particles');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      let W, H, particles = [], rafId;
+
+      function resize() {
+        W = canvas.width  = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+
+      // Particle types: 'dot' (ink particle), 'petal' (plum-blossom petal), 'stroke' (mini brush mark)
+      const TYPES = ['dot', 'dot', 'dot', 'petal', 'petal', 'stroke'];
+
+      // Color palette: warm gold, terracotta, sage, ink
+      const COLORS = [
+        'rgba(196,150,43,', // gold
+        'rgba(196,105,74,', // terra
+        'rgba(138,155,126,', // sage
+        'rgba(58,40,25,',  // ink-warm
+      ];
+
+      function rnd(a, b) { return a + Math.random() * (b - a); }
+
+      function createParticle() {
+        const type = TYPES[Math.floor(Math.random() * TYPES.length)];
+        const color = COLORS[Math.floor(Math.random() * COLORS.length)];
+        return {
+          type,
+          x: rnd(0, W),
+          y: rnd(-H * 0.1, H * 1.1),
+          size: type === 'dot'    ? rnd(1.5, 4)
+               : type === 'petal' ? rnd(4, 9)
+               :                    rnd(8, 20),
+          opacity: rnd(0.08, 0.45),
+          vx: rnd(-0.18, 0.18),
+          vy: rnd(-0.08, -0.35),  // mostly drift upward slowly
+          rot: rnd(0, Math.PI * 2),
+          vrot: rnd(-0.008, 0.008),
+          color,
+          life: 1,
+          decay: rnd(0.0008, 0.003),
+        };
+      }
+
+      // Init
+      const COUNT = Math.min(60, Math.floor(W * H / 25000));
+      for (let i = 0; i < COUNT; i++) {
+        const p = createParticle();
+        p.y = rnd(0, H); // scatter vertically at start
+        particles.push(p);
+      }
+
+      function drawPetal(ctx, p) {
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.globalAlpha = p.opacity * p.life;
+        ctx.fillStyle = p.color + p.opacity * p.life + ')';
+        ctx.beginPath();
+        // simple almond/petal shape
+        ctx.moveTo(0, -p.size);
+        ctx.bezierCurveTo(p.size * 0.6, -p.size * 0.5, p.size * 0.6, p.size * 0.5, 0, p.size);
+        ctx.bezierCurveTo(-p.size * 0.6, p.size * 0.5, -p.size * 0.6, -p.size * 0.5, 0, -p.size);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      function drawStroke(ctx, p) {
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.globalAlpha = p.opacity * p.life * 0.5;
+        ctx.strokeStyle = p.color + p.opacity * p.life + ')';
+        ctx.lineWidth = rnd(1, 2.5);
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(-p.size, 0);
+        ctx.quadraticCurveTo(0, -p.size * 0.4, p.size, 0);
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      function drawDot(ctx, p) {
+        ctx.save();
+        ctx.globalAlpha = p.opacity * p.life;
+        ctx.fillStyle = p.color + p.opacity * p.life + ')';
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size * 0.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      function tick() {
+        ctx.clearRect(0, 0, W, H);
+
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.x   += p.vx;
+          p.y   += p.vy;
+          p.rot += p.vrot;
+          p.life -= p.decay;
+
+          if (p.life <= 0 || p.y < -50 || p.x < -50 || p.x > W + 50) {
+            particles[i] = createParticle();
+            particles[i].y = H + 20; // re-enter from bottom
+            continue;
+          }
+
+          if      (p.type === 'petal')  drawPetal(ctx, p);
+          else if (p.type === 'stroke') drawStroke(ctx, p);
+          else                          drawDot(ctx, p);
+        }
+
+        rafId = requestAnimationFrame(tick);
+      }
+
+      tick();
+
+      // Pause when tab not visible
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) cancelAnimationFrame(rafId);
+        else tick();
+      });
+    })();
+
+    /* ── Navbar scroll behavior ────────────────────────────────── */
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    /* ── Burger / mobile menu ──────────────────────────────────── */
+    const burger = document.getElementById('burger-btn');
+    const mobileNav = document.getElementById('mobile-nav');
+
+    burger.addEventListener('click', () => {
+      const isOpen = burger.classList.toggle('open');
+      burger.setAttribute('aria-expanded', isOpen);
+      mobileNav.hidden = !isOpen;
+      mobileNav.classList.toggle('open', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+
+    mobileNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        burger.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
+        mobileNav.hidden = true;
+        mobileNav.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+
+    /* ── Scroll reveal (Intersection Observer) ─────────────────── */
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    revealEls.forEach(el => observer.observe(el));
+
+    /* ── Active nav link on scroll ─────────────────────────────── */
+    const navLinks = document.querySelectorAll('.nav-links a');
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+          });
+        }
+      });
+    }, { threshold: 0.35 });
+
+    document.querySelectorAll('section[id]').forEach(s => sectionObserver.observe(s));
+
+    /* ── Back to top ───────────────────────────────────────────── */
+    const backTop = document.getElementById('back-top');
+    window.addEventListener('scroll', () => {
+      backTop.classList.toggle('visible', window.scrollY > 600);
+    }, { passive: true });
+    backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    /* ── Silhouettes — parallax souris / gyroscope ─────────────── */
+    (function () {
+      return; // parallaxe désactivée : silhouettes statiques
+
+      const hero    = document.getElementById('accueil');
+      const elJump  = document.getElementById('sil-jump');
+      const elLunge = document.getElementById('sil-lunge');
+      const elBal   = document.getElementById('sil-balance');
+      if (!hero || !elJump || !elBal) return;
+
+      let tx = 0, ty = 0;   // target normalised (-0.5 → 0.5)
+      let cx = 0, cy = 0;   // current (lerped)
+      let raf;
+
+      function lerp(a, b, t) { return a + (b - a) * t; }
+
+      function applyParallax() {
+        /* Three depth layers: jump closest (most movement), balance farthest.
+           Multipliers: target range -0.5..0.5, so ×30 gives ±15px max travel */
+        const jx = cx * -30, jy = cy * -18;
+        const lx = cx * -15, ly = cy * -9;
+        const bx = cx * -6,  by = cy * -4;
+        elJump.style.transform  = `translate(${jx.toFixed(1)}px, ${jy.toFixed(1)}px)`;
+        if (elLunge) elLunge.style.transform = `translate(${lx.toFixed(1)}px, ${ly.toFixed(1)}px)`;
+        elBal.style.transform   = `translate(${bx.toFixed(1)}px, ${by.toFixed(1)}px)`;
+      }
+
+      function tick() {
+        cx = lerp(cx, tx, 0.07);
+        cy = lerp(cy, ty, 0.07);
+        applyParallax();
+        raf = requestAnimationFrame(tick);
+      }
+
+      /* Mouse parallax — only active while hero is in view */
+      window.addEventListener('mousemove', function (e) {
+        if (window.scrollY > window.innerHeight * 0.6) return;
+        tx = e.clientX / window.innerWidth  - 0.5;
+        ty = e.clientY / window.innerHeight - 0.5;
+      }, { passive: true });
+
+      /* Gyroscope parallax for mobile */
+      if (typeof DeviceOrientationEvent !== 'undefined') {
+        window.addEventListener('deviceorientation', function (e) {
+          if (e.gamma == null) return;
+          tx = Math.max(-0.5, Math.min(0.5, e.gamma  / 40));       // left-right tilt
+          ty = Math.max(-0.5, Math.min(0.5, (e.beta - 45) / 40));  // fwd-back tilt
+        }, { passive: true });
+      }
+
+      raf = requestAnimationFrame(tick);
+
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) cancelAnimationFrame(raf);
+        else raf = requestAnimationFrame(tick);
+      });
+    })();
+  </script>
+</body>
+</html>
+
+</body></html>

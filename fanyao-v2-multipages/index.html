@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="fr" data-site="bordeaux">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Fan Yao — Kung-fu Wushu à Bordeaux. Cours pour enfants et adultes, compétition, stages et événements. Professeurs membres de l'équipe de France." />
+  <title>FAN YAO — Kung-fu Wushu Bordeaux</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Apply stored site theme before first paint — prevents colour flash -->
+  <script>(function(){try{var s=localStorage.getItem('fy-site')||'bordeaux';document.documentElement.setAttribute('data-site',s);}catch(e){}})();</script>
+</head>
+<body data-page="index">
+
+  <!-- ── NAV ── -->
+  <header class="nav" id="main-nav" role="banner">
+    <a href="index.html" class="nav-logo" aria-label="Fan Yao – accueil">FAN<span>&nbsp;YAO</span></a>
+    <nav aria-label="Navigation principale">
+      <ul class="nav-links">
+        <li><a href="a-propos.html">À propos</a></li>
+        <li><a href="professeurs.html">Professeurs</a></li>
+        <li><a href="medias.html">Médias</a></li>
+        <li><a href="horaires-tarifs.html">Tarifs</a></li>
+        <li><a href="a-la-carte.html">À la carte</a></li>
+        <li><a href="inscriptions.html">Inscriptions</a></li>
+        <li><a href="contact.html" class="nav-cta">Contact</a></li>
+      </ul>
+    </nav>
+    <!-- ── SITE SELECTOR ── -->
+    <div class="site-selector" role="group" aria-label="Choisir le lieu">
+      <button class="site-btn" data-site-pick="bordeaux" aria-pressed="false">Bordeaux</button>
+      <button class="site-btn" data-site-pick="talence" aria-pressed="false">Talence</button>
+    </div>
+    <button class="nav-burger" id="burger-btn" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-nav">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- ── MOBILE NAV ── -->
+  <nav class="nav-mobile" id="mobile-nav" aria-label="Menu mobile" hidden>
+    <ul>
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="a-propos.html">À propos</a></li>
+      <li><a href="professeurs.html">Professeurs</a></li>
+      <li><a href="medias.html">Médias</a></li>
+      <li><a href="horaires-tarifs.html">Tarifs</a></li>
+      <li><a href="a-la-carte.html">À la carte</a></li>
+      <li><a href="inscriptions.html">Inscriptions</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="site-selector site-selector--mobile" role="group" aria-label="Choisir le lieu">
+      <button class="site-btn" data-site-pick="bordeaux" aria-pressed="false">Bordeaux</button>
+      <button class="site-btn" data-site-pick="talence" aria-pressed="false">Talence</button>
+    </div>
+  </nav>
+
+  <main>
+    <!-- ── HERO ── -->
+    <section id="hero-index" class="hero-index" aria-labelledby="hero-heading">
+      <div class="hero-figures" role="img" aria-label="Silhouettes de pratiquants de wushu : saut, fente au sabre, équilibre au sabre"></div>
+      <div class="hero-overlay"></div>
+      <div class="hero-overlay-left"></div>
+      <canvas id="ember-canvas" aria-hidden="true"></canvas>
+
+      <div class="hero-content">
+        <p class="hero-eyebrow">
+          <span data-site-show="bordeaux">Kung-fu Wushu · Bordeaux Bastide</span>
+          <span data-site-show="talence">Kung-fu Wushu · Talence CREPS</span>
+        </p>
+        <h1 class="hero-title" id="hero-heading">
+          <span class="hero-title-word">FAN</span>
+          <span class="hero-title-word">YAO</span>
+        </h1>
+        <p class="hero-subtitle">Club de wushu kung-fu — Bordeaux &amp; Talence</p>
+        <div class="hero-cta-row">
+          <a href="horaires-tarifs.html" class="btn-primary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Tarifs &amp; inscriptions
+          </a>
+          <a href="a-propos.html" class="btn-outline">En savoir plus</a>
+        </div>
+      </div>
+
+      <div class="hero-scroll" aria-hidden="true">
+        <div class="hero-scroll-line"></div>
+        <span>Défiler</span>
+      </div>
+    </section>
+
+    <!-- ── ANNOUNCEMENT ── -->
+    <div class="announcement" role="status" aria-live="polite">
+      <div class="announcement-dot" aria-hidden="true"></div>
+      <p><strong>Saison 2025–2026 —</strong> Les cours reprennent en septembre. Inscriptions ouvertes jusqu'aux vacances de la Toussaint.</p>
+    </div>
+
+    <!-- ── BRUSH DIVIDER ── -->
+    <div class="brush-divider" aria-hidden="true">
+      <svg viewBox="0 0 1440 20" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0 10 C 240 2, 480 18, 720 10 C 960 2, 1200 18, 1440 10" stroke="#e63946" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
+      </svg>
+    </div>
+
+    <!-- ── ABOUT PREVIEW ── -->
+    <section aria-labelledby="home-about-heading" style="background:var(--c-black);border-top:1px solid var(--c-zinc8);">
+      <div class="container">
+        <div class="preview-grid-2">
+          <div class="preview-text">
+            <div class="section-header reveal">
+              <p class="label label--red">À propos</p>
+              <h2 class="section-title" id="home-about-heading">L'art<br>du mouvement</h2>
+              <div class="section-rule"></div>
+            </div>
+            <p class="preview-pull reveal reveal-d1">
+              "Explorer les limites du corps et de l'esprit à travers la tradition chinoise."
+            </p>
+            <p class="reveal reveal-d2">Fan Yao enseigne le côté technique du kung-fu wushu : styles à mains nues, armes courtes et armes longues. Les routines (taolus) mêlent coups de pied, techniques de bras, postures et sauts acrobatiques.</p>
+            <p class="reveal reveal-d2" style="color:var(--c-zinc4);font-size:0.9rem;margin-top:0.75rem;">Cours bébé, enfant et adulte. Groupes de compétition. Ateliers de découverte tout au long de l'année.</p>
+            <div class="about-pillars reveal reveal-d3">
+              <span class="about-pillar">Explosivité</span>
+              <span class="about-pillar">Souplesse</span>
+              <span class="about-pillar">Concentration</span>
+              <span class="about-pillar">Philosophie Tao</span>
+              <span class="about-pillar">Bébé · Enfant · Adulte</span>
+            </div>
+            <a href="a-propos.html" class="preview-link reveal reveal-d4">
+              Découvrir le club
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+          <div class="preview-image reveal reveal-d2">
+            <img src="images/dojo-groupe.jpg"
+                 alt="Entraînement de kung-fu wushu au club Fan Yao" loading="lazy" />
+            <!-- Enso decorative accent -->
+            <svg class="enso-accent" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M 100 8 A 92 92 0 1 1 28 168" stroke="#e63946" stroke-width="10" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── COMPETITION STRIP ── -->
+    <div class="compe-strip">
+      <div class="container">
+        <div class="compe-inner">
+          <div class="compe-stat reveal">
+            <div class="compe-stat-num">2<span>013</span></div>
+            <div class="compe-stat-label">Équipe de France — Juliette</div>
+          </div>
+          <div class="compe-stat reveal reveal-d1">
+            <div class="compe-stat-num">3<span>×</span></div>
+            <div class="compe-stat-label">Championne d'Europe</div>
+          </div>
+          <div class="compe-stat reveal reveal-d2">
+            <div class="compe-stat-num">Top<span>10</span></div>
+            <div class="compe-stat-label">Mondial</div>
+          </div>
+          <div class="compe-text reveal reveal-d3">
+            <p>Professeurs membres de l'équipe de France, médaillés à l'international. Un groupe de compétition engagé aux championnats de ligue et de France — enfants et adultes.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TEACHERS TEASER ── -->
+    <section aria-labelledby="home-prof-heading" style="background:var(--c-black);">
+      <div class="container">
+        <div class="section-header reveal">
+          <p class="label label--red">Enseignants</p>
+          <h2 class="section-title" id="home-prof-heading">Professeurs</h2>
+          <div class="section-rule"></div>
+        </div>
+      </div>
+
+      <div class="teachers-teaser">
+        <a href="professeurs.html" class="teacher-teaser" aria-label="Benoît Denolle — voir le profil">
+          <img src="images/benoit-denolle-cours.jpg"
+               alt="Benoît Denolle, professeur de kung-fu wushu" loading="lazy" />
+          <div class="teacher-teaser-overlay"></div>
+          <div class="teacher-teaser-info">
+            <h3 class="teacher-teaser-name">Benoît<br>Denolle</h3>
+            <p class="teacher-teaser-title">CQP MAM · 3ème Duan · Équipe de France 2017–2022</p>
+          </div>
+        </a>
+        <a href="professeurs.html" class="teacher-teaser" aria-label="Juliette Vauchez — voir le profil">
+          <img src="images/juliette-vauchez.jpg"
+               alt="Juliette Vauchez, professeure de kung-fu wushu" loading="lazy" />
+          <div class="teacher-teaser-overlay"></div>
+          <div class="teacher-teaser-info">
+            <h3 class="teacher-teaser-name">Juliette<br>Vauchez</h3>
+            <p class="teacher-teaser-title">CQP MAM · 3ème Duan · Triple championne d'Europe</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="container" style="margin-top:2rem;padding-bottom:0;">
+        <a href="professeurs.html" class="preview-link reveal">
+          Voir les profils complets
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- ── BRUSH DIVIDER ── -->
+    <div class="brush-divider" aria-hidden="true" style="background:var(--c-black);">
+      <svg viewBox="0 0 1440 20" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0 10 C 360 18, 720 2, 1080 14 C 1260 18, 1380 6, 1440 10" stroke="#e63946" stroke-width="1" stroke-linecap="round" opacity="0.2"/>
+      </svg>
+    </div>
+
+    <!-- ── TARIFS PREVIEW ── -->
+    <section aria-labelledby="home-tarifs-heading" style="background:var(--c-zinc9);border-top:1px solid var(--c-zinc8);">
+      <div class="container">
+        <div class="section-header reveal">
+          <p class="label label--red">Frais d'inscription</p>
+          <h2 class="section-title" id="home-tarifs-heading">Horaires<br>&amp; Tarifs</h2>
+          <div class="section-rule"></div>
+        </div>
+
+        <div class="tarif-preview">
+          <div class="tarif-preview-card reveal reveal-d1" data-location="bordeaux">
+            <div class="tarif-preview-loc">Bordeaux Bastide</div>
+            <div class="tarif-preview-name">Petit Institut<br>de Chine</div>
+            <div class="tarif-preview-row">
+              <span>Enfants CP–CE1</span>
+              <span class="tarif-preview-price">260 €</span>
+            </div>
+            <div class="tarif-preview-row">
+              <span>Enfants CE2–3ème</span>
+              <span class="tarif-preview-price">320 €</span>
+            </div>
+            <div class="tarif-preview-row" style="border-bottom:none;">
+              <span>Adultes</span>
+              <span class="tarif-preview-price">420 €</span>
+            </div>
+          </div>
+          <div class="tarif-preview-card reveal reveal-d2" data-location="talence">
+            <div class="tarif-preview-loc">Talence</div>
+            <div class="tarif-preview-name">CREPS</div>
+            <div class="tarif-preview-row">
+              <span>Enfants CP–3ème</span>
+              <span class="tarif-preview-price">350 €</span>
+            </div>
+            <div class="tarif-preview-row" style="border-bottom:none;">
+              <span>Adulte extra</span>
+              <span class="tarif-preview-price">250 €</span>
+            </div>
+          </div>
+          <div class="tarif-preview-card tarif-preview-card--accent reveal reveal-d3">
+            <div class="tarif-preview-loc">Réductions</div>
+            <div class="tarif-preview-name">Tarif famille<br>& étudiant</div>
+            <div class="tarif-preview-row">
+              <span>Famille</span>
+              <span class="tarif-preview-price" style="color:var(--c-red);">−10%</span>
+            </div>
+            <div class="tarif-preview-row" style="border-bottom:none;">
+              <span>Étudiant</span>
+              <span class="tarif-preview-price" style="color:var(--c-red);">−10%</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;" class="reveal">
+          <a href="horaires-tarifs.html" class="btn-primary">Horaires &amp; tarifs complets</a>
+          <a href="inscriptions.html" class="btn-outline">Dossiers d'inscription</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── GALLERY TEASER ── -->
+    <section aria-labelledby="home-gallery-heading" style="background:var(--c-black);border-top:1px solid var(--c-zinc8);">
+      <div class="container">
+        <div class="section-header reveal">
+          <p class="label label--red">Photos &amp; Vidéos</p>
+          <h2 class="section-title" id="home-gallery-heading">Médias</h2>
+          <div class="section-rule"></div>
+        </div>
+
+        <div class="gallery-teaser">
+          <div class="gallery-teaser-item reveal">
+            <img src="images/aaea9c_a53f1f9eba8d48d9bcb5cec7e5c9b3b1.jpg" alt="Démonstration wushu Fan Yao" loading="lazy" />
+          </div>
+          <div class="gallery-teaser-item reveal reveal-d1">
+            <img src="images/aaea9c_42807a02d5364262b198f06245cae088.jpg" alt="Compétition kung-fu wushu" loading="lazy" />
+          </div>
+          <div class="gallery-teaser-item reveal reveal-d2">
+            <img src="images/aaea9c_7740c3ca782a4e92a09c53dfdd12e820.jpg" alt="Taolu wushu Fan Yao" loading="lazy" />
+          </div>
+          <div class="gallery-teaser-item reveal reveal-d3">
+            <img src="images/aaea9c_de1798d825b7490f866643ca1a858a79.jpg" alt="Gala kung-fu Fan Yao" loading="lazy" />
+          </div>
+        </div>
+
+        <div style="margin-top:2rem;" class="reveal">
+          <a href="medias.html" class="preview-link">
+            Voir tous les médias
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CTA BAND ── -->
+    <section class="cta-band" aria-labelledby="home-cta-heading">
+      <div class="cta-band-bg" role="img" aria-hidden="true"
+           style="background-image: url('images/aaea9c_e7078ec2e98c4c1d9c20f1be367eb2b9.jpg');"></div>
+      <div class="container">
+        <div class="cta-band-inner">
+          <p class="cta-band-eyebrow reveal">Rejoindre le club</p>
+          <h2 class="cta-band-title reveal reveal-d1" id="home-cta-heading">
+            Prêt à<br>commencer ?
+          </h2>
+          <p class="reveal reveal-d2" style="color:var(--c-zinc4);font-size:0.9rem;max-width:440px;text-align:center;">
+            Inscriptions ouvertes chaque automne. Cours pour tous les niveaux, enfants dès 3 ans et adultes de tous âges.
+          </p>
+          <div class="cta-band-buttons reveal reveal-d3">
+            <a href="inscriptions.html" class="btn-primary">Dossiers d'inscription</a>
+            <a href="contact.html" class="btn-outline">Nous contacter</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-inner">
+      <a href="index.html" class="footer-logo" aria-label="Fan Yao – accueil">FAN<span>&nbsp;YAO</span></a>
+      <nav class="footer-nav" aria-label="Navigation footer">
+        <a href="a-propos.html">À propos</a>
+        <a href="professeurs.html">Professeurs</a>
+        <a href="medias.html">Médias</a>
+        <a href="horaires-tarifs.html">Tarifs</a>
+        <a href="a-la-carte.html">À la carte</a>
+        <a href="inscriptions.html">Inscriptions</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Fan Yao — Kung-fu Wushu Bordeaux</p>
+      <div class="footer-contact">
+        <a href="mailto:fanyao.33.wushu@hotmail.com">fanyao.33.wushu@hotmail.com</a>
+        <a href="tel:+33762707414">07 62 70 74 14</a>
+        <a href="https://www.instagram.com/fanyao.bordeaux/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://www.facebook.com/FAN-YAO-103989061444879" target="_blank" rel="noopener noreferrer">Facebook</a>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-top" id="back-top" aria-label="Retour en haut de page">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
+
+  <script src="script.js"></script>
+</body>
+</html>

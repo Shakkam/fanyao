@@ -1,0 +1,537 @@
+<title>Taolu au bâton</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Spectral:ital,wght@0,400;0,600;1,400&family=Barlow+Condensed:wght@600;800&display=swap">
+<style>
+  /* Layout : un théâtre d'ombres (écran de papier dans un cadre laqué), la légende du mouvement dessous, la suite du taolu à côté */
+  :root {
+    --lacquer: #140d0a;
+    --lacquer-2: #1f1410;
+    --frame: #3a1c12;
+    --paper: #f1d29a;
+    --ink: #1a0f08;
+    --vermilion: #c8331f;
+    --text: #f3e6d2;
+    --muted: #a88f78;
+    --line: #3b2a20;
+    --font-han: "Ma Shan Zheng", "STKaiti", "KaiTi", serif;
+    --font-text: "Spectral", Georgia, serif;
+    --font-ui: "Barlow Condensed", "Arial Narrow", sans-serif;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: radial-gradient(ellipse 80% 50% at 50% 0%, #2a1610 0%, var(--lacquer) 70%);
+    background-color: var(--lacquer);
+    color: var(--text);
+    font-family: var(--font-text);
+    padding-block: 28px 48px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    min-height: 100%;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; display: grid; gap: 24px; }
+  header { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+  .eyebrow {
+    font-family: var(--font-ui); font-weight: 600; font-size: 13px;
+    letter-spacing: .3em; text-transform: uppercase; color: var(--vermilion);
+  }
+  h1 {
+    margin: 0; font-family: var(--font-ui); font-weight: 800;
+    font-size: clamp(30px, 5vw, 48px); letter-spacing: .06em; text-transform: uppercase;
+    text-wrap: balance;
+  }
+  h1 span { font-family: var(--font-han); font-weight: 400; color: var(--vermilion); margin-left: .3em; letter-spacing: 0; text-transform: none; }
+
+  .theatre { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 24px; align-items: start; }
+  @media (max-width: 880px) { .theatre { grid-template-columns: minmax(0, 1fr); } }
+
+  .stage-col { display: grid; gap: 16px; min-width: 0; }
+  .stage {
+    position: relative; width: 100%; aspect-ratio: 16 / 9; max-width: 100%;
+    border-radius: 4px; overflow: hidden;
+    box-shadow: 0 0 0 1px #000, 0 30px 80px -20px rgba(0,0,0,.8), 0 0 120px -30px rgba(241,160,80,.35);
+    background: var(--frame);
+  }
+  .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+  .caption {
+    display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 18px; align-items: center;
+    min-height: 92px;
+  }
+  .caption .han {
+    grid-row: span 2; font-family: var(--font-han); font-size: clamp(44px, 7vw, 68px);
+    line-height: 1; color: var(--paper); min-width: 2.2em;
+  }
+  .caption .pinyin {
+    font-family: var(--font-ui); font-weight: 600; font-size: 15px; letter-spacing: .22em;
+    text-transform: uppercase; color: var(--vermilion);
+  }
+  .caption .fr { font-size: clamp(17px, 2.2vw, 21px); font-style: italic; color: var(--text); }
+
+  .controls { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .controls button {
+    font-family: var(--font-ui); font-weight: 600; font-size: 14px; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--text); background: transparent;
+    border: 1px solid var(--line); padding: 9px 14px; cursor: pointer;
+    transition: border-color .2s, background .2s;
+  }
+  .controls button:hover { border-color: var(--muted); }
+  .controls button[aria-pressed="true"] { border-color: var(--vermilion); background: rgba(200,51,31,.16); }
+  .controls button:focus-visible, .moves button:focus-visible { outline: 2px solid var(--vermilion); outline-offset: 2px; }
+  .controls .sep { width: 1px; height: 24px; background: var(--line); margin: 0 6px; }
+  .controls .label { font-family: var(--font-ui); font-size: 13px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-right: 2px; }
+
+  aside h2 {
+    margin: 0 0 10px; font-family: var(--font-ui); font-weight: 600; font-size: 13px;
+    letter-spacing: .3em; text-transform: uppercase; color: var(--muted);
+  }
+  .moves { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; counter-reset: m; }
+  .moves li { counter-increment: m; }
+  .moves button {
+    width: 100%; display: grid; grid-template-columns: 22px 5.2em minmax(0,1fr); gap: 10px; align-items: center;
+    text-align: left; background: transparent; border: 0; border-left: 2px solid transparent;
+    color: var(--muted); padding: 7px 10px; cursor: pointer; font-family: var(--font-text); font-size: 14px;
+    transition: color .2s, background .2s, border-color .2s;
+  }
+  .moves button::before {
+    content: counter(m, decimal-leading-zero); font-family: var(--font-ui); font-size: 12px;
+    letter-spacing: .1em; color: var(--line); font-variant-numeric: tabular-nums;
+  }
+  .moves .h { font-family: var(--font-han); font-size: 18px; line-height: 1; white-space: nowrap; }
+  .moves button:hover { color: var(--text); }
+  .moves button.on { color: var(--text); background: rgba(200,51,31,.12); border-left-color: var(--vermilion); }
+  .moves button.on::before { color: var(--vermilion); }
+  .note { font-size: 13px; color: var(--muted); margin: 14px 0 0; line-height: 1.5; max-width: 60ch; }
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Fan Yao · Wushu</span>
+    <h1>Taolu au bâton <span>棍术</span></h1>
+  </header>
+
+  <div class="theatre">
+    <div class="stage-col">
+      <div class="stage">
+        <canvas id="stage" aria-label="Animation : un pratiquant en ombre chinoise exécute un enchaînement au bâton du Nord"></canvas>
+      </div>
+      <div class="caption" aria-live="polite">
+        <div class="han" id="cap-han">持棍礼</div>
+        <div class="pinyin" id="cap-pinyin">Chi gun li</div>
+        <div class="fr" id="cap-fr">Le salut, bâton tenu à la verticale</div>
+      </div>
+      <div class="controls">
+        <button type="button" id="play" aria-pressed="true">Pause</button>
+        <button type="button" id="restart">Rejouer</button>
+        <span class="sep" aria-hidden="true"></span>
+        <span class="label">Vitesse</span>
+        <button type="button" data-speed="0.5" aria-pressed="false">0,5×</button>
+        <button type="button" data-speed="1" aria-pressed="true">1×</button>
+        <button type="button" data-speed="1.5" aria-pressed="false">1,5×</button>
+      </div>
+    </div>
+
+    <aside>
+      <h2>L'enchaînement</h2>
+      <ol class="moves" id="moves"></ol>
+      <p class="note">Cliquez sur un mouvement pour le revoir. Espace : pause / lecture.</p>
+    </aside>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var DEG = Math.PI / 180;
+  function dir(a) { return { x: Math.sin(a * DEG), y: Math.cos(a * DEG) }; }
+  function add(p, d, l) { return { x: p.x + d.x * l, y: p.y + d.y * l }; }
+
+  /* ── Proportions du personnage (unités figure, ~190 de haut) ── */
+  var L = { torso: 50, neck: 7, headR: 11, ua: 29, fa: 27, th: 44, sh: 42, foot: 15, staff: 150 };
+  var ANK = 4; /* hauteur de la cheville quand le pied est à plat */
+
+  /* ── Poses clés.
+        Coordonnées « monde » : x vers l'avant, h = hauteur au-dessus du sol.
+        hx/hh hanche · lx/lh, rx/rh chevilles · lk/rk sens du genou (+1 avant, -1 arrière)
+        T tronc · F pied · lUA/lFA bras gauche quand il est libre
+        mA/mR centre de la prise (angle et distance depuis l'épaule) · w écart entre les mains
+        S angle du bâton (peut dépasser 360 : les moulinets s'accumulent) · gb longueur de bâton derrière la main droite
+        lg 1 = main gauche sur le bâton, 0 = libre
+        Angles en degrés : 0 = vers le bas, 90 = vers l'avant, 180 = vers le haut.
+        d = durée pour atteindre la pose, h = temps de maintien. ── */
+  var SRC = [
+    { d: 0, h: 0.6, cap: ["持棍礼", "Chi gun li", "Le salut, bâton tenu à la verticale"],
+      p: { hx: -70, hh: 88, lx: -73, lh: ANK, rx: -67, rh: ANK, lk: 1, rk: 1, lF: 90, rF: 90, T: 180,
+           mA: 30, mR: 44, w: 20, S: 180, gb: 82, lg: 0, lUA: 50, lFA: 140 } },
+    { d: 0.4, h: 0.05, p: { mA: 50, mR: 35, w: 30, S: 135, gb: 45, lg: 1 } },
+    { d: 0.3, h: 0, p: { mA: 170, mR: 38, S: 250, gb: 55 } },
+    { d: 0.22, h: 0.3, cap: ["弓步劈棍", "Gong bu pi gun", "Frappe descendante en fente avant"],
+      p: { hx: -13, hh: 65, rx: 31, T: 175, mA: 85, mR: 40, S: 95, gb: 30 } },
+    { d: 0.25, h: 0, p: { hx: -20, hh: 70, T: 180, mA: 75, mR: 32, w: 16, gb: 75 } },
+    { d: 0.17, h: 0, cap: ["舞花棍", "Wu hua gun", "Moulinets : le bâton tourne devant le corps"],
+      p: { S: 275, mA: 100 } },
+    { d: 0.17, h: 0, p: { S: 455, mA: 65 } },
+    { d: 0.17, h: 0, p: { S: 635, mA: 100 } },
+    { d: 0.17, h: 0, p: { S: 815, mA: 70 } },
+    { d: 0.35, h: 0, p: { hx: 85, hh: 65, lx: 135, mA: 30, mR: 30, w: 30, S: 810, gb: 25 } },
+    { d: 0.15, h: 0.3, cap: ["弓步戳棍", "Gong bu chuo gun", "Estoc en fente avant"],
+      p: { hx: 91, T: 172, mA: 90, mR: 40 } },
+    { d: 0.3, h: 0, p: { hx: 80, hh: 68, T: 180, mA: 165, mR: 36, S: 990, gb: 40 } },
+    { d: 0.32, h: 0.3, cap: ["仆步扫棍", "Pu bu sao gun", "Balayage au ras du sol en fente basse"],
+      p: { hx: 39, hh: 30, lx: 117, T: 160, mA: 70, mR: 38, S: 1150, gb: 30 } },
+    { d: 0.35, h: 0.35, cap: ["提膝挑棍", "Ti xi tiao gun", "Genou levé, le bâton remonte"],
+      p: { hx: 113, hh: 88, rx: 157, rh: 46, rF: 40, T: 182, mA: 20, mR: 30, S: 1230, gb: 30 } },
+    { d: 0.25, h: 0, p: { hx: 135, hh: 58, rx: 150, rh: ANK, rF: 90, T: 168, mA: 60, mR: 32, S: 1260, gb: 40 } },
+    { d: 0.25, h: 0.05, p: { hx: 185, hh: 120, lx: 165, lh: 54, rx: 210, rh: 62, lF: 60, rF: 60, T: 182,
+           mA: 175, mR: 36, S: 1340, gb: 30 } },
+    { d: 0.24, h: 0.4, cap: ["跳步劈棍", "Tiao bu pi gun", "Saut, puis frappe descendante en position du cavalier"],
+      p: { hx: 235, hh: 60, lx: 183, lh: ANK, rx: 287, rh: ANK, lk: -1, lF: 90, rF: 90, T: 180, mA: 85, mR: 40, S: 1180 } },
+    { d: 0.45, h: 0.9, cap: ["收势", "Shou shi", "Fermeture, le bâton revient à la verticale"],
+      p: { hx: 235, hh: 88, lx: 232, rx: 238, lk: 1, mA: 30, mR: 44, w: 20, S: 1260, gb: 82, lg: 0, lUA: 50, lFA: 140 } }
+  ];
+
+  /* Naturel : canaux qui dépassent un peu la pose avant de s'y poser, et retard des segments distaux (s) */
+  var OVS = ["T", "S", "mA", "lUA", "lFA"];
+  var LAG = { lUA: 0.03, lFA: 0.07, rF: 0.04, lF: 0.04, S: 0.035, mA: 0.025, mR: 0.025, w: 0.025 };
+
+  /* Clés complètes (héritage + maintien = clé dupliquée) */
+  var KT = [], KV = [], CAPS = [], prevP = null, time = 0;
+  SRC.forEach(function (k) {
+    var full = {}, key;
+    if (prevP) for (key in prevP) full[key] = prevP[key];
+    for (key in k.p) full[key] = k.p[key];
+    var startT = time;
+    time += k.d; KT.push(time); KV.push(full);
+    if (k.cap) CAPS.push({ han: k.cap[0], py: k.cap[1], fr: k.cap[2], start: startT });
+    if (k.h > 0) {
+      if (prevP) {
+        /* la pose est d'abord légèrement dépassée, les hanches s'enfoncent, puis tout se pose pendant le maintien */
+        var arr = {};
+        for (key in full) arr[key] = full[key];
+        OVS.forEach(function (c) { arr[c] += Math.max(-7, Math.min(7, (full[c] - prevP[c]) * 0.08)); });
+        arr.hh -= 1.5;
+        KV[KV.length - 1] = arr;
+      }
+      time += k.h; KT.push(time); KV.push(full);
+    }
+    prevP = full;
+  });
+  var total = time, CURTAIN = 1.2, LOOP = total + CURTAIN;
+  var CH = Object.keys(KV[0]);
+
+  /* Interpolation cubique monotone (Fritsch–Carlson) : fluide, sans dépassement,
+     donc une valeur constante entre deux clés reste strictement constante (pied planté). */
+  var SLOPES = {};
+  CH.forEach(function (c) {
+    var n = KT.length, d = [], m = [], k;
+    for (k = 0; k < n; k++) m.push(0);
+    for (k = 0; k < n - 1; k++) d.push((KV[k + 1][c] - KV[k][c]) / (KT[k + 1] - KT[k] || 1));
+    for (k = 1; k < n - 1; k++) {
+      if (d[k - 1] * d[k] <= 0) continue;
+      var h0 = KT[k] - KT[k - 1], h1 = KT[k + 1] - KT[k], w1 = 2 * h1 + h0, w2 = h1 + 2 * h0;
+      m[k] = (w1 + w2) / (w1 / d[k - 1] + w2 / d[k]);
+    }
+    SLOPES[c] = m;
+  });
+  function segAt(t) {
+    for (var i = 0; i < KT.length - 1; i++) if (t < KT[i + 1]) return i;
+    return KT.length - 2;
+  }
+  function rawPose(t) {
+    if (t >= total) return t < total + CURTAIN / 2 ? KV[KV.length - 1] : KV[0];
+    var i = segAt(t), h = KT[i + 1] - KT[i], u = h > 0 ? Math.max(0, Math.min(1, (t - KT[i]) / h)) : 1;
+    var u2 = u * u, u3 = u2 * u;
+    var h00 = 2 * u3 - 3 * u2 + 1, h10 = u3 - 2 * u2 + u, h01 = -2 * u3 + 3 * u2, h11 = u3 - u2;
+    var o = {};
+    CH.forEach(function (c) {
+      var m = SLOPES[c];
+      o[c] = h00 * KV[i][c] + h10 * h * m[i] + h01 * KV[i + 1][c] + h11 * h * m[i + 1];
+    });
+    /* pas : un pied qui se déplace au sol décolle en arc */
+    ["l", "r"].forEach(function (s) {
+      var a = KV[i], b = KV[i + 1], dx = b[s + "x"] - a[s + "x"];
+      if (a[s + "h"] <= ANK + 0.5 && b[s + "h"] <= ANK + 0.5 && Math.abs(dx) > 3)
+        o[s + "h"] += Math.min(0.3 * Math.abs(dx), 18) * Math.sin(Math.PI * u);
+    });
+    return o;
+  }
+
+  /* Pose finale : retard des segments distaux, réaction du tronc aux accélérations, respiration */
+  function poseAt(t) {
+    var base = rawPose(t), o = {}, c;
+    for (c in base) o[c] = base[c];
+    if (t < total) {
+      var cache = {};
+      for (c in LAG) {
+        var tl = Math.max(0, t - LAG[c]);
+        if (!cache[tl]) cache[tl] = rawPose(tl);
+        o[c] = cache[tl][c];
+      }
+      /* le buste se penche contre l'accélération des hanches */
+      var e = 0.03, ax = (rawPose(Math.min(total - 0.001, t + e)).hx - 2 * base.hx + rawPose(Math.max(0, t - e)).hx) / (e * e);
+      o.T -= Math.max(-6, Math.min(6, ax * 0.0035));
+    }
+    /* respiration : rien n'est jamais tout à fait figé */
+    o.hh += 0.9 * Math.sin(t * 2.4); o.T += 0.7 * Math.sin(t * 1.9 + 1);
+    o.mA += 1.4 * Math.sin(t * 2.1); o.S += 1.2 * Math.sin(t * 1.7 + 1); o.lUA += 1.6 * Math.sin(t * 2.1 + 2);
+    return o;
+  }
+
+  /* Cinématique inverse à deux segments (jambes et bras) */
+  function solve2(root, target, a, b, side) {
+    var dx = target.x - root.x, dy = target.y - root.y, d = Math.hypot(dx, dy) || 0.001;
+    var dd = Math.max(Math.abs(a - b) + 0.01, Math.min(a + b - 0.01, d));
+    var ux = dx / d, uy = dy / d, ca = (a * a + dd * dd - b * b) / (2 * a * dd);
+    ca = Math.max(-1, Math.min(1, ca));
+    var sa = Math.sqrt(1 - ca * ca), nx = -uy, ny = ux;
+    var mid = { x: root.x + a * (ux * ca - nx * sa * side), y: root.y + a * (uy * ca - ny * sa * side) };
+    var kx = target.x - mid.x, ky = target.y - mid.y, kl = Math.hypot(kx, ky) || 1;
+    return { mid: mid, end: { x: mid.x + kx / kl * b, y: mid.y + ky / kl * b } };
+  }
+  function mix(a, b, t) { return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t }; }
+
+  /* ── Squelette en coordonnées monde (y vers le bas, sol en y = 0) ── */
+  function skeleton(p) {
+    var hip = { x: p.hx, y: -p.hh }, dT = dir(p.T);
+    var sk = { hip: hip, dT: dT };
+    sk.shoulder = add(hip, dT, L.torso - 4);
+    sk.neck = add(hip, dT, L.torso);
+    sk.head = add(sk.neck, dir(180 + (p.T - 180) * 0.5), L.neck + L.headR - 2); /* la tête reste plus droite que le buste */
+    ["r", "l"].forEach(function (s) {
+      var leg = solve2(hip, { x: p[s + "x"], y: -p[s + "h"] }, L.th, L.sh, p[s + "k"] >= 0 ? 1 : -1);
+      var a = leg.end;
+      sk[s] = { knee: leg.mid, ankle: a,
+        toe: add(a, dir(p[s + "F"]), L.foot), heel: add(a, dir(p[s + "F"] + 180), 4) };
+    });
+    /* prise : centre entre les deux mains, placé depuis l'épaule ; chaque bras vient le saisir (coude du côté le plus bas) */
+    function arm(target) {
+      var A = solve2(sk.shoulder, target, L.ua, L.fa, 1), B = solve2(sk.shoulder, target, L.ua, L.fa, -1);
+      return A.mid.y > B.mid.y ? A : B;
+    }
+    var dS = dir(p.S), M = add(sk.shoulder, dir(p.mA), p.mR);
+    var ra = arm(add(M, dS, -p.w / 2));
+    sk.r.elbow = ra.mid; sk.r.hand = ra.end;
+    sk.l.elbow = add(sk.shoulder, dir(p.lUA), L.ua);
+    sk.l.hand = add(sk.l.elbow, dir(p.lFA), L.fa);
+    if (p.lg > 0.001) {
+      var la = arm(add(M, dS, p.w / 2)), wl = Math.min(1, p.lg);
+      sk.l.elbow = mix(sk.l.elbow, la.mid, wl);
+      sk.l.hand = mix(sk.l.hand, la.end, wl);
+    }
+    /* le bâton passe dans la main droite */
+    var rh = sk.r.hand;
+    sk.staff = { back: add(rh, dS, -p.gb), tip: add(rh, dS, L.staff - p.gb) };
+    return sk;
+  }
+
+  /* ── Canvas ── */
+  var canvas = document.getElementById("stage"), ctx = canvas.getContext("2d");
+  var W = 0, H = 0, dpr = 1, paper = null;
+  function resize() {
+    var r = canvas.getBoundingClientRect();
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height));
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    paper = makePaper(W, H);
+  }
+
+  /* Texture de papier : fibres + grain, calculée une fois */
+  function makePaper(w, h) {
+    var c = document.createElement("canvas"); c.width = w; c.height = h;
+    var g = c.getContext("2d");
+    var img = g.createImageData(w, h), d = img.data;
+    for (var i = 0; i < d.length; i += 4) {
+      var v = 128 + (Math.random() - 0.5) * 34;
+      d[i] = d[i + 1] = d[i + 2] = v; d[i + 3] = 255;
+    }
+    g.putImageData(img, 0, 0);
+    g.strokeStyle = "rgba(90,60,30,0.10)"; g.lineWidth = 0.6;
+    for (var f = 0; f < w * h / 900; f++) {
+      var x = Math.random() * w, y = Math.random() * h, a = Math.random() * Math.PI, l = 6 + Math.random() * 22;
+      g.beginPath(); g.moveTo(x, y);
+      g.quadraticCurveTo(x + Math.cos(a) * l / 2 + 3, y + Math.sin(a) * l / 2 - 3, x + Math.cos(a) * l, y + Math.sin(a) * l);
+      g.stroke();
+    }
+    return c;
+  }
+
+  function line(a, b, w) { ctx.lineWidth = w; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+  function dot(p, r) { ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, Math.PI * 2); ctx.fill(); }
+
+  /* segment effilé : largeur wa au départ, wb à l'arrivée, bouts arrondis */
+  function limb(a, b, wa, wb) {
+    var dx = b.x - a.x, dy = b.y - a.y, l = Math.hypot(dx, dy) || 1, nx = -dy / l, ny = dx / l;
+    ctx.beginPath();
+    ctx.moveTo(a.x + nx * wa / 2, a.y + ny * wa / 2);
+    ctx.lineTo(b.x + nx * wb / 2, b.y + ny * wb / 2);
+    ctx.lineTo(b.x - nx * wb / 2, b.y - ny * wb / 2);
+    ctx.lineTo(a.x - nx * wa / 2, a.y - ny * wa / 2);
+    ctx.closePath(); ctx.fill();
+    dot(a, wa / 2); dot(b, wb / 2);
+  }
+
+  function drawFigure(sk) {
+    var dT = sk.dT, n = { x: -dT.y, y: dT.x };
+    function at(d, w) { var c = add(sk.hip, dT, d); return [add(c, n, w), add(c, n, -w)]; }
+    /* tronc : hanches, taille, poitrine, épaules arrondies */
+    var hp = at(0, 11), wa = at(17, 9.5), ch = at(34, 12.5), sh = at(L.torso - 4, 11.5), nk = at(L.torso + 1, 4);
+    ctx.beginPath();
+    ctx.moveTo(hp[0].x, hp[0].y);
+    ctx.quadraticCurveTo(wa[0].x, wa[0].y, ch[0].x, ch[0].y);
+    ctx.quadraticCurveTo(sh[0].x, sh[0].y, nk[0].x, nk[0].y);
+    ctx.lineTo(nk[1].x, nk[1].y);
+    ctx.quadraticCurveTo(sh[1].x, sh[1].y, ch[1].x, ch[1].y);
+    ctx.quadraticCurveTo(wa[1].x, wa[1].y, hp[1].x, hp[1].y);
+    ctx.closePath(); ctx.fill(); ctx.lineWidth = 3; ctx.stroke();
+    /* bande de ceinture à la taille */
+    limb(at(15, 10.5)[0], at(15, 10.5)[1], 5, 5);
+    limb(sk.neck, sk.head, 7, 9);
+    dot(sk.head, L.headR + 0.5);
+    /* chignon, côté arrière */
+    var bun = add(sk.head, dir(Math.atan2(dT.x, dT.y) / DEG + 38), L.headR + 2);
+    dot(bun, 5.2);
+    ["l", "r"].forEach(function (s) {
+      var q = sk[s];
+      limb(sk.hip, q.knee, 19, 14);   /* pantalon ample */
+      limb(q.knee, q.ankle, 14, 10);
+      dot(q.ankle, 7);                /* revers resserré à la cheville */
+      limb(q.heel, q.toe, 7.5, 5);
+      limb(sk.shoulder, q.elbow, 10.5, 8);
+      limb(q.elbow, q.hand, 8, 6);
+      dot(q.hand, 5.6);
+    });
+    /* le bâton, légèrement effilé vers la pointe, puis les poings par-dessus */
+    limb(sk.staff.back, sk.staff.tip, 5, 3.8);
+    dot(sk.r.hand, 6); dot(sk.l.hand, 6);
+  }
+
+  function drawStage(t, flick, now) {
+    /* cadre laqué */
+    ctx.fillStyle = "#2b140d"; ctx.fillRect(0, 0, W, H);
+    var m = Math.round(Math.min(W, H) * 0.035);
+    var sx = m, sy = m, sw = W - 2 * m, sh = H - 2 * m;
+    /* écran de papier éclairé par la lanterne */
+    var lx = W * 0.5 + Math.sin(now * 0.4) * W * 0.02, ly = H * 0.42;
+    var g = ctx.createRadialGradient(lx, ly, H * 0.05, lx, ly, Math.max(W, H) * 0.7);
+    g.addColorStop(0, "rgb(" + Math.round(252 * flick) + "," + Math.round(222 * flick) + "," + Math.round(168 * flick) + ")");
+    g.addColorStop(0.45, "rgb(" + Math.round(228 * flick) + "," + Math.round(160 * flick) + "," + Math.round(92 * flick) + ")");
+    g.addColorStop(1, "rgb(" + Math.round(120 * flick) + "," + Math.round(52 * flick) + "," + Math.round(24 * flick) + ")");
+    ctx.fillStyle = g; ctx.fillRect(sx, sy, sw, sh);
+    if (paper) {
+      ctx.save(); ctx.globalCompositeOperation = "overlay"; ctx.globalAlpha = 0.35;
+      ctx.drawImage(paper, sx, sy, sw, sh, sx, sy, sw, sh); ctx.restore();
+    }
+    /* montants de l'écran */
+    ctx.strokeStyle = "rgba(60,25,12,0.35)"; ctx.lineWidth = 1;
+    for (var i = 1; i < 4; i++) { var xx = sx + sw * i / 4; ctx.beginPath(); ctx.moveTo(xx, sy); ctx.lineTo(xx, sy + sh); ctx.stroke(); }
+    /* sceau */
+    var ss = Math.min(W, H) * 0.075, px = sx + sw - ss - m * 0.8, py = sy + m * 0.8;
+    ctx.fillStyle = "rgba(176,36,22,0.88)"; ctx.fillRect(px, py, ss, ss);
+    ctx.fillStyle = "rgba(255,230,200,0.92)";
+    ctx.font = Math.round(ss * 0.42) + "px 'Ma Shan Zheng', KaiTi, serif";
+    ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.fillText("武", px + ss * 0.5, py + ss * 0.3); ctx.fillText("术", px + ss * 0.5, py + ss * 0.72);
+    return { sx: sx, sy: sy, sw: sw, sh: sh };
+  }
+
+  /* ── Boucle ── */
+  var t = 0, speed = 1, playing = true, last = performance.now(), lastIdx = -1;
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce) { playing = false; t = CAPS[1].start + 0.5; }
+
+  function frame(now) {
+    var dt = Math.min(0.05, (now - last) / 1000); last = now;
+    if (playing) { t += dt * speed; if (t >= LOOP) t -= LOOP; }
+    render(now / 1000, playing ? dt : 0);
+    requestAnimationFrame(frame);
+  }
+
+  function render(nowS, dt) {
+    if (!W) return;
+    var flick = 0.94 + 0.035 * Math.sin(nowS * 7.3) + 0.02 * Math.sin(nowS * 13.1 + 1) + (playing ? 0.012 * Math.random() : 0);
+    var box = drawStage(t, flick, nowS);
+    var s = box.sh / 300, groundY = box.sy + box.sh * 0.9, cx = W / 2 - 110 * s;
+
+    function place(p) { return { sk: skeleton(p), ox: cx, oy: groundY }; }
+
+    ctx.save();
+    ctx.beginPath(); ctx.rect(box.sx, box.sy, box.sw, box.sh); ctx.clip();
+    ctx.fillStyle = "#1a0f08"; ctx.strokeStyle = "#1a0f08"; ctx.lineCap = "round"; ctx.lineJoin = "round";
+
+    /* traînée de mouvement : poses un peu plus anciennes, très transparentes */
+    if (playing && speed > 0) {
+      for (var gi = 3; gi >= 1; gi--) {
+        var tg = t - gi * 0.035 * speed;
+        if (tg < 0) continue;
+        var ghost = place(poseAt(tg));
+        ctx.save(); ctx.globalAlpha = 0.09;
+        ctx.translate(ghost.ox, ghost.oy); ctx.scale(s, s); drawFigure(ghost.sk); ctx.restore();
+      }
+    }
+
+    var cur = place(poseAt(t));
+    ctx.shadowColor = "rgba(30,12,4,0.55)"; ctx.shadowBlur = 5 * s;
+    ctx.save(); ctx.translate(cur.ox, cur.oy); ctx.scale(s, s); drawFigure(cur.sk); ctx.restore();
+    ctx.shadowBlur = 0;
+
+    /* sol de la scène */
+    ctx.fillStyle = "rgba(40,16,8,0.55)";
+    ctx.fillRect(box.sx, groundY + 2 * s, box.sw, box.sy + box.sh - groundY);
+    ctx.restore();
+
+    /* rideau entre deux boucles */
+    if (t >= total) {
+      var a = Math.sin(Math.PI * (t - total) / CURTAIN);
+      ctx.fillStyle = "rgba(20,8,4," + a.toFixed(3) + ")"; ctx.fillRect(0, 0, W, H);
+    }
+
+    var idx = 0;
+    if (t >= total) idx = t < total + CURTAIN / 2 ? CAPS.length - 1 : 0;
+    else for (var ci = 0; ci < CAPS.length; ci++) if (t >= CAPS[ci].start) idx = ci;
+    if (idx !== lastIdx) { lastIdx = idx; showCaption(idx); }
+  }
+
+  /* ── Légende et liste ── */
+  var capHan = document.getElementById("cap-han"), capPy = document.getElementById("cap-pinyin"), capFr = document.getElementById("cap-fr");
+  var list = document.getElementById("moves"), items = [];
+  var named = [];
+  CAPS.forEach(function (k, i) {
+    var li = document.createElement("li"), b = document.createElement("button");
+    b.type = "button";
+    b.innerHTML = '<span class="h"></span><span></span>';
+    b.children[0].textContent = k.han; b.children[1].textContent = k.fr.split(",")[0].split(" : ")[0];
+    b.addEventListener("click", function () { t = k.start; if (!playing) setPlaying(true); });
+    li.appendChild(b); list.appendChild(li);
+    named.push({ i: i, b: b });
+  });
+  function showCaption(i) {
+    var k = CAPS[i];
+    capHan.textContent = k.han; capPy.textContent = k.py; capFr.textContent = k.fr;
+    named.forEach(function (n) { n.b.classList.toggle("on", n.i === i); });
+  }
+
+  /* ── Contrôles ── */
+  var playBtn = document.getElementById("play");
+  function setPlaying(v) { playing = v; playBtn.textContent = v ? "Pause" : "Lecture"; playBtn.setAttribute("aria-pressed", String(v)); }
+  setPlaying(playing);
+  playBtn.addEventListener("click", function () { setPlaying(!playing); });
+  document.getElementById("restart").addEventListener("click", function () { t = 0; setPlaying(true); });
+  document.querySelectorAll("[data-speed]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      speed = parseFloat(b.dataset.speed);
+      document.querySelectorAll("[data-speed]").forEach(function (o) { o.setAttribute("aria-pressed", String(o === b)); });
+    });
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.code === "Space" && e.target === document.body) { e.preventDefault(); setPlaying(!playing); }
+  });
+
+  window.addEventListener("resize", resize);
+  resize();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { lastIdx = -1; });
+  requestAnimationFrame(function (n) { last = n; frame(n); });
+})();
+</script>

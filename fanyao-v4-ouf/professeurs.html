@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="fr" data-site="bordeaux">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Professeurs Fan Yao — Benoît Denolle et Juliette Vauchez, membres de l'équipe de France de wushu kung-fu, enseignent à Bordeaux." />
+  <title>Professeurs — FAN YAO Kung-fu Wushu Bordeaux</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,700&family=Inter:wght@300;400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="fx.css" />
+  <script>(function(){var d=document.documentElement;try{d.setAttribute('data-site',localStorage.getItem('fy-site')||'bordeaux');}catch(e){}d.classList.add('fx-js');if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;try{if(!sessionStorage.getItem('fy4-seen'))d.classList.add('fx-first');else if(sessionStorage.getItem('fy4-trans')==='1')d.classList.add('fx-entering');}catch(e){}})();</script>
+</head>
+<body data-page="professeurs">
+
+  <!-- ── NAV ── -->
+  <header class="nav" id="main-nav" role="banner">
+    <a href="index.html" class="nav-logo" aria-label="Fan Yao – accueil">FAN<span>&nbsp;YAO</span></a>
+    <nav aria-label="Navigation principale">
+      <ul class="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="a-propos.html">L’art du mouvement</a></li>
+        <li><a href="professeurs.html">Professeurs</a></li>
+        <li><a href="medias.html">Médias</a></li>
+        <li><a href="horaires-tarifs.html">Tarifs</a></li>
+        <li><a href="a-la-carte.html">À la carte</a></li>
+        <li><a href="inscriptions.html">Inscriptions</a></li>
+        <li><a href="contact.html" class="nav-cta">Contact</a></li>
+      </ul>
+    </nav>
+    <!-- ── SITE SELECTOR ── -->
+    <div class="site-selector" role="group" aria-label="Choisir le lieu">
+      <button class="site-btn" data-site-pick="bordeaux" aria-pressed="false">Bordeaux</button>
+      <button class="site-btn" data-site-pick="talence" aria-pressed="false">Talence</button>
+    </div>
+    <button class="nav-burger" id="burger-btn" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-nav">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <nav class="nav-mobile" id="mobile-nav" aria-label="Menu mobile" hidden>
+    <ul>
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="a-propos.html">L’art du mouvement</a></li>
+      <li><a href="professeurs.html">Professeurs</a></li>
+      <li><a href="medias.html">Médias</a></li>
+      <li><a href="horaires-tarifs.html">Tarifs</a></li>
+      <li><a href="a-la-carte.html">À la carte</a></li>
+      <li><a href="inscriptions.html">Inscriptions</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="site-selector site-selector--mobile" role="group" aria-label="Choisir le lieu">
+      <button class="site-btn" data-site-pick="bordeaux" aria-pressed="false">Bordeaux</button>
+      <button class="site-btn" data-site-pick="talence" aria-pressed="false">Talence</button>
+    </div>
+  </nav>
+
+  <main>
+    <!-- ── PAGE HERO ── -->
+    <section class="page-hero" aria-label="Professeurs Fan Yao">
+      <div class="page-hero-bg page-hero-duo" role="img" aria-label="Benoît Denolle et Juliette Vauchez, les deux professeurs du club">
+        <div style="background-image: url('images/benoit-denolle.jpg'); background-position: center 0%;"></div>
+        <div style="background-image: url('images/aaea9c_c47eb9719a2d40f686820db546c630a1.jpg'); background-position: center 22%;"></div>
+      </div>
+      <div class="page-hero-overlay"></div>
+      <div class="page-hero-content container">
+        <p class="page-hero-eyebrow">Enseignants</p>
+        <h1 class="page-hero-title">Professeurs</h1>
+      </div>
+    </section>
+
+    <!-- ── INTRO ── -->
+    <section style="background:var(--c-black);padding-bottom:0;">
+      <div class="container">
+        <div style="max-width:640px;" class="reveal">
+          <p style="color:var(--c-zinc3);font-size:1rem;line-height:1.75;">
+            Juliette Vauchez et Benoît Denolle, tous deux membres de l'équipe de France et titulaires du CQP MAM 3ème duan, partagent leur expertise du wushu de haut niveau avec leurs élèves à Bordeaux et à Talence.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PROFESSORS GRID ── -->
+    <section aria-labelledby="prof-heading" style="background:var(--c-black);">
+      <h2 class="sr-only" id="prof-heading">Profils des professeurs</h2>
+      <div class="professors-grid">
+        <!-- Benoît Denolle -->
+        <article class="professor-card reveal reveal-d1">
+          <div class="professor-photo">
+            <img
+              src="images/benoit-denolle-cours.jpg"
+              alt="Portrait de Benoît Denolle, professeur de kung-fu wushu"
+              loading="lazy"
+            />
+            <div class="professor-photo-overlay"></div>
+          </div>
+          <div class="professor-info">
+            <p class="professor-title">CQP MAM · 3ème Duan</p>
+            <h3 class="professor-name">Benoît<br>Denolle</h3>
+            <p class="professor-bio">Membre de l'équipe de France de 2017 à 2022 et médaillé international. Spécialiste de l'épée, de la lance et des styles du Nord et du Sud de la Chine. Il co-dirige le club avec Juliette et encadre les groupes de compétition et les cours adultes.</p>
+            <div class="professor-tags">
+              <span class="professor-tag">Équipe de France 2017–2022</span>
+              <span class="professor-tag">Médaillé international</span>
+              <span class="professor-tag">Épée · Lance</span>
+              <span class="professor-tag">Styles Nord &amp; Sud</span>
+              <span class="professor-tag">CQP MAM</span>
+              <span class="professor-tag">3ème Duan</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Juliette Vauchez -->
+        <article class="professor-card reveal reveal-d2">
+          <div class="professor-photo">
+            <img
+              src="images/juliette-vauchez.jpg"
+              alt="Portrait de Juliette Vauchez, professeure de kung-fu wushu"
+              loading="lazy"
+            />
+            <div class="professor-photo-overlay"></div>
+          </div>
+          <div class="professor-info">
+            <p class="professor-title">CQP MAM · 3ème Duan</p>
+            <h3 class="professor-name">Juliette<br>Vauchez</h3>
+            <p class="professor-bio">Membre de l'équipe de France depuis 2013, triple championne d'Europe et top 10 mondial. Spécialiste du style du Nord — mains nues, épée et lance. Elle encadre les groupes compétition enfants et adultes et les cours bébé/enfant.</p>
+            <div class="professor-tags">
+              <span class="professor-tag">Équipe de France depuis 2013</span>
+              <span class="professor-tag">Triple championne d'Europe</span>
+              <span class="professor-tag">Top 10 mondial</span>
+              <span class="professor-tag">Style du Nord</span>
+              <span class="professor-tag">Épée · Lance</span>
+              <span class="professor-tag">CQP MAM</span>
+              <span class="professor-tag">3ème Duan</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ── COMPETITION STRIP ── -->
+    <div class="compe-strip">
+      <div class="container">
+        <div class="compe-inner">
+          <div class="compe-stat reveal">
+            <div class="compe-stat-num">2<span>013</span></div>
+            <div class="compe-stat-label">Équipe de France — Juliette</div>
+          </div>
+          <div class="compe-stat reveal reveal-d1">
+            <div class="compe-stat-num">2<span>017</span></div>
+            <div class="compe-stat-label">Équipe de France — Benoît</div>
+          </div>
+          <div class="compe-stat reveal reveal-d2">
+            <div class="compe-stat-num">3<span>×</span></div>
+            <div class="compe-stat-label">Championne d'Europe</div>
+          </div>
+          <div class="compe-stat reveal reveal-d3">
+            <div class="compe-stat-num">Top<span>10</span></div>
+            <div class="compe-stat-label">Mondial</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SERVICES LINK ── -->
+    <section style="background:var(--c-black);border-top:1px solid var(--c-zinc8);padding:clamp(3rem,6vh,5rem) 0;">
+      <div class="container">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:2rem;">
+          <div class="reveal">
+            <p class="label label--red" style="margin-bottom:0.5rem;">Cours particuliers &amp; stages</p>
+            <h2 style="font-family:var(--font-display);font-size:clamp(1.75rem,3.5vw,2.75rem);font-weight:900;text-transform:uppercase;line-height:1.1;max-width:420px;">
+              Juliette et Benoît se déplacent<br>en Nouvelle-Aquitaine
+            </h2>
+          </div>
+          <div style="display:flex;gap:1rem;flex-wrap:wrap;" class="reveal reveal-d1">
+            <a href="a-la-carte.html" class="btn-primary">Services à la carte</a>
+            <a href="contact.html" class="btn-outline">Les contacter</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-inner">
+      <a href="index.html" class="footer-logo" aria-label="Fan Yao – accueil">FAN<span>&nbsp;YAO</span></a>
+      <nav class="footer-nav" aria-label="Navigation footer">
+        <a href="index.html">Accueil</a>
+        <a href="a-propos.html">L’art du mouvement</a>
+        <a href="professeurs.html">Professeurs</a>
+        <a href="medias.html">Médias</a>
+        <a href="horaires-tarifs.html">Tarifs</a>
+        <a href="a-la-carte.html">À la carte</a>
+        <a href="inscriptions.html">Inscriptions</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Fan Yao — Kung-fu Wushu Bordeaux</p>
+      <div class="footer-contact">
+        <a href="mailto:fanyao.33.wushu@hotmail.com">fanyao.33.wushu@hotmail.com</a>
+        <a href="tel:+33762707414">07 62 70 74 14</a>
+        <a href="https://www.instagram.com/fanyao.bordeaux/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://www.facebook.com/FAN-YAO-103989061444879" target="_blank" rel="noopener noreferrer">Facebook</a>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-top" id="back-top" aria-label="Retour en haut de page">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
+
+  <style>
+    .sr-only { position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="script.js"></script>
+  <script src="fx.js"></script>
+</body>
+</html>
